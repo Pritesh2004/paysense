@@ -1,0 +1,9 @@
+Docker commands:
+
+Start Docker:- docker compose up -d
+Verify:- docker compose ps
+Docker Stop and delete everything (fresh start):- docker compose down -v
+Watch the logs to confirm no errors:- docker logs paysense-postgres
+
+===========================================================================
+

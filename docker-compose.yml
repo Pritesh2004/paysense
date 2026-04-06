@@ -1,1 +1,41 @@
  
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: paysense-postgres
+    environment:
+      POSTGRES_USER: paysense
+      POSTGRES_PASSWORD: paysense123
+      POSTGRES_DB: paysense
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docs/database/init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U paysense"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+
+  redis:
+    image: redis:7-alpine
+    container_name: paysense-redis
+    ports:
+      - "6379:6379"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: paysense-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@paysense.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:

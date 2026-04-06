@@ -1,0 +1,7 @@
+-- Creates separate schemas for each microservice
+CREATE SCHEMA IF NOT EXISTS auth;
+CREATE SCHEMA IF NOT EXISTS payment;
+CREATE SCHEMA IF NOT EXISTS transaction;
+CREATE SCHEMA IF NOT EXISTS fraud;
+CREATE SCHEMA IF NOT EXISTS notification;
+CREATE SCHEMA IF NOT EXISTS mcp;
