@@ -44,8 +44,10 @@ public class AuthService {
         }
 
         var user = User.builder()
-                .email(request.getEmail())
-                .passwordHash(passwordEncoder.encode(request.getPassword()))
+                
+
+.email(request.getEmail())
+ .passwordHash(passwordEncoder.encode(request.getPassword()))
                 .fullName(request.getFullName())
                 .phone(request.getPhone())
                 .role(Role.USER)

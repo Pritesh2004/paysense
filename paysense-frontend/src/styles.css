@@ -1,5 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Outfit', sans-serif;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/70 backdrop-blur-md border border-white/40 shadow-xl;
+  }
+  .background-pattern {
+    background-image: radial-gradient(#6366f1 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-color: #f8fafc;
+  }
+}
 
 /* You can add global styles to this file, and also import other style files */
