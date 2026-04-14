@@ -1,14 +1,14 @@
 <div class="min-h-screen bg-gray-50 flex">
   <!-- Left Side: Splash & Branding -->
   <div
-    class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-indigo-600 to-purple-800 flex-col justify-between p-12">
+    class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-blue-700 to-emerald-500 flex-col justify-between p-12">
     <!-- Abstract Design Elements -->
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
       <svg class="absolute -top-24 -left-24 w-96 h-96 text-white animate-pulse" fill="currentColor"
         viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <circle cx="50" cy="50" r="50" />
       </svg>
-      <svg class="absolute bottom-10 -right-20 w-[30rem] h-[30rem] text-purple-300" fill="currentColor"
+      <svg class="absolute bottom-10 -right-20 w-[30rem] h-[30rem] text-emerald-300" fill="currentColor"
         viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <circle cx="50" cy="50" r="50" />
       </svg>
@@ -16,11 +16,7 @@
 
     <div class="relative z-10">
       <div class="flex items-center gap-2 text-white font-bold text-3xl tracking-tight">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-emerald-400" fill="none" viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
+        <img src="assets/logo.png" alt="PaySense Logo" class="h-10 w-auto filter drop-shadow-lg" />
         PaySense
       </div>
       <p class="mt-4 text-indigo-100 text-lg max-w-md">
@@ -153,7 +149,7 @@
           </div>
 
           <button type="submit" [disabled]="loading"
-            class="w-full flex justify-center items-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none">
+            class="w-full flex justify-center items-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-emerald-500 hover:from-blue-700 hover:to-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none">
             <svg *ngIf="loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
               fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

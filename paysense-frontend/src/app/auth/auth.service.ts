@@ -125,6 +125,9 @@ export class AuthService {
       localStorage.setItem(this.REFRESH_TOKEN_KEY, authResult.refreshToken);
     }
     localStorage.setItem(this.ACCESS_TOKEN_KEY, authResult.accessToken);
+    if (authResult.userId) {
+        localStorage.setItem('userId', authResult.userId);
+    }
   }
 
   private handleError(error: HttpErrorResponse) {

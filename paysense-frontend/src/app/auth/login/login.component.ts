@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService
   ) {
     if (this.authService.token) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/dashboard']);
     }
   }
 

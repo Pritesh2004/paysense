@@ -1,0 +1,443 @@
+<div class="h-screen bg-slate-50 font-sans flex text-slate-800 overflow-hidden">
+
+  <!-- Left Sidebar -->
+  <aside class="hidden md:flex flex-col w-64 bg-slate-900 text-white shadow-xl z-20 shrink-0">
+    <div class="p-6 flex items-center gap-3 border-b border-slate-700/50">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">P</div>
+      <h1 class="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">PaySense</h1>
+    </div>
+
+    <nav class="flex-1 mt-4 px-3 space-y-1">
+      <button (click)="activeView = 'dashboard'"
+        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium text-sm"
+        [ngClass]="activeView === 'dashboard' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' : 'text-slate-400 hover:bg-slate-800 hover:text-white'">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+        Dashboard
+      </button>
+
+      <button (click)="activeView = 'history'"
+        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium text-sm"
+        [ngClass]="activeView === 'history' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' : 'text-slate-400 hover:bg-slate-800 hover:text-white'">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+        Transactions
+      </button>
+
+      <button (click)="activeView = 'notifications'"
+        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium text-sm relative"
+        [ngClass]="activeView === 'notifications' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' : 'text-slate-400 hover:bg-slate-800 hover:text-white'">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+        Notifications
+        <span *ngIf="unreadCount > 0" class="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">{{ unreadCount }}</span>
+      </button>
+    </nav>
+
+    <div class="p-3 border-t border-slate-700/50">
+      <button (click)="logout()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors text-sm">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+        Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+    <!-- Header -->
+    <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 shrink-0 z-10">
+      <h2 class="text-lg font-semibold text-slate-800">
+        <span *ngIf="activeView === 'dashboard'">Overview</span>
+        <span *ngIf="activeView === 'history'">Transaction History</span>
+        <span *ngIf="activeView === 'notifications'">Notifications</span>
+      </h2>
+      <div class="flex items-center gap-3">
+        <!-- Notification Bell -->
+        <button (click)="activeView = 'notifications'" class="relative p-2 text-slate-400 hover:text-indigo-600 transition-colors">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+          <span *ngIf="unreadCount > 0" class="absolute top-1 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+        </button>
+        <!-- User Avatar -->
+        <div class="flex items-center gap-2">
+          <div class="h-9 w-9 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm shadow">
+            {{ getUserInitial() }}
+          </div>
+          <span class="text-sm font-medium text-slate-700 hidden lg:block">{{ getUserName() }}</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Scrollable Body -->
+    <div class="flex-1 overflow-y-auto">
+
+      <!-- ─── DASHBOARD VIEW ─── -->
+      <div *ngIf="activeView === 'dashboard'" class="p-6 max-w-6xl mx-auto space-y-6">
+
+        <!-- Welcome -->
+        <div>
+          <h3 class="text-2xl font-bold text-slate-800">Welcome back, {{ getUserName() }}! 👋</h3>
+          <p class="text-slate-500 mt-1 text-sm">Here's your financial overview.</p>
+        </div>
+
+        <!-- Balance Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+          <!-- Account Card -->
+          <div class="bg-gradient-to-br from-indigo-600 to-blue-700 rounded-2xl p-7 text-white shadow-xl shadow-indigo-500/20 relative overflow-hidden">
+            <div class="absolute -top-4 -right-4 opacity-10">
+              <svg class="w-40 h-40" fill="currentColor" viewBox="0 0 24 24"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+            </div>
+            <div class="relative z-10">
+              <p class="text-indigo-200 text-xs font-semibold uppercase tracking-widest">Primary Account</p>
+              <div *ngIf="isLoadingAccount" class="h-12 w-36 bg-white/20 rounded-lg animate-pulse mt-2"></div>
+              <h2 *ngIf="!isLoadingAccount" class="text-4xl font-extrabold mt-2 tracking-tight">₹ {{ accountDetails?.balance | number:'1.2-2' }}</h2>
+              <div class="mt-6 flex justify-between items-end text-sm">
+                <div>
+                  <p class="text-indigo-200 text-xs">Account Number</p>
+                  <p class="font-mono font-semibold tracking-wider mt-0.5">{{ accountDetails?.accountNumber || '•••• •••• ••••' }}</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-indigo-200 text-xs">Primary VPA</p>
+                  <p class="font-medium mt-0.5">{{ accountDetails?.vpas?.[0] || 'Not setup' }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Wallet Card -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm flex flex-col">
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-slate-500 text-xs font-semibold uppercase tracking-widest">Wallet Balance</p>
+              <span class="px-2.5 py-0.5 text-xs font-bold rounded-full"
+                [ngClass]="accountDetails?.wallet?.status === 'ACTIVE' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'">
+                {{ accountDetails?.wallet?.status || 'ACTIVE' }}
+              </span>
+            </div>
+            <div *ngIf="isLoadingAccount" class="h-10 w-28 bg-slate-100 rounded animate-pulse mt-1"></div>
+            <h2 *ngIf="!isLoadingAccount" class="text-4xl font-extrabold text-slate-800 tracking-tight mt-1">₹ {{ accountDetails?.wallet?.balance | number:'1.2-2' }}</h2>
+            <div class="mt-4 grid grid-cols-2 gap-3 text-xs text-slate-600">
+              <div class="bg-slate-50 rounded-lg p-2.5">
+                <p class="text-slate-400">Daily Limit</p>
+                <p class="font-bold text-slate-700 mt-0.5">₹ {{ accountDetails?.wallet?.dailyLimit | number:'1.0-0' }}</p>
+              </div>
+              <div class="bg-slate-50 rounded-lg p-2.5">
+                <p class="text-slate-400">Remaining Today</p>
+                <p class="font-bold text-slate-700 mt-0.5">₹ {{ accountDetails?.wallet?.remainingDailyLimit | number:'1.0-0' }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Send Money Panel with Tabs -->
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+          <div class="border-b border-slate-200 px-6">
+            <div class="flex gap-1 -mb-px">
+              <button (click)="activeTab = 'upi'"
+                class="px-5 py-4 text-sm font-semibold border-b-2 transition-colors"
+                [ngClass]="activeTab === 'upi' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-slate-500 hover:text-slate-700'">
+                📱 UPI
+              </button>
+              <button (click)="activeTab = 'neft'"
+                class="px-5 py-4 text-sm font-semibold border-b-2 transition-colors"
+                [ngClass]="activeTab === 'neft' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-slate-500 hover:text-slate-700'">
+                🏦 NEFT
+              </button>
+              <button (click)="activeTab = 'wallet'"
+                class="px-5 py-4 text-sm font-semibold border-b-2 transition-colors"
+                [ngClass]="activeTab === 'wallet' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-slate-500 hover:text-slate-700'">
+                👛 Wallet
+              </button>
+            </div>
+          </div>
+
+          <div class="p-6">
+
+            <!-- UPI Tab -->
+            <div *ngIf="activeTab === 'upi'">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">Receiver UPI ID</label>
+                  <input type="text" [(ngModel)]="upiModel.receiverVpa"
+                    class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                    placeholder="user@paysense">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">Amount (₹)</label>
+                  <input type="number" [(ngModel)]="upiModel.amount"
+                    class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                    placeholder="0.00">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">Note (Optional)</label>
+                  <input type="text" [(ngModel)]="upiModel.description"
+                    class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                    placeholder="For dinner, etc.">
+                </div>
+              </div>
+              <div *ngIf="upiMessage" class="mt-3 px-4 py-2.5 rounded-lg text-sm"
+                [ngClass]="upiError ? 'bg-red-50 text-red-700 border-l-4 border-red-500' : 'bg-green-50 text-green-700 border-l-4 border-green-500'">
+                {{ upiMessage }}
+              </div>
+              <button (click)="sendUpiPayment()" [disabled]="upiLoading || !upiModel.receiverVpa || upiModel.amount <= 0"
+                class="mt-4 px-8 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold text-sm shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                <svg *ngIf="upiLoading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                {{ upiLoading ? 'Processing...' : 'Send via UPI' }}
+              </button>
+            </div>
+
+            <!-- NEFT Tab -->
+            <div *ngIf="activeTab === 'neft'">
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">Account Number</label>
+                  <input type="text" [(ngModel)]="neftModel.receiverAccountNo"
+                    class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                    placeholder="PS0000001234">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">IFSC Code</label>
+                  <input type="text" [(ngModel)]="neftModel.receiverIfsc"
+                    class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                    placeholder="PAYS0000001">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">Amount (₹)</label>
+                  <input type="number" [(ngModel)]="neftModel.amount"
+                    class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                    placeholder="0.00">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">Description</label>
+                  <input type="text" [(ngModel)]="neftModel.description"
+                    class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                    placeholder="Rent payment">
+                </div>
+              </div>
+              <p class="mt-2 text-xs text-slate-400">⏱ NEFT payments settle within 30 minutes.</p>
+              <div *ngIf="neftMessage" class="mt-3 px-4 py-2.5 rounded-lg text-sm"
+                [ngClass]="neftError ? 'bg-red-50 text-red-700 border-l-4 border-red-500' : 'bg-green-50 text-green-700 border-l-4 border-green-500'">
+                {{ neftMessage }}
+              </div>
+              <button (click)="sendNeftPayment()" [disabled]="neftLoading || !neftModel.receiverAccountNo || neftModel.amount <= 0"
+                class="mt-4 px-8 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold text-sm shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                <svg *ngIf="neftLoading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                {{ neftLoading ? 'Initiating...' : 'Initiate NEFT' }}
+              </button>
+            </div>
+
+            <!-- Wallet Tab -->
+            <div *ngIf="activeTab === 'wallet'" class="space-y-6">
+
+              <!-- Top-Up -->
+              <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                <h4 class="text-sm font-bold text-slate-700 mb-3">💰 Top Up Wallet from Account</h4>
+                <div class="flex gap-3 items-end">
+                  <div class="flex-1">
+                    <label class="block text-xs font-semibold text-slate-500 mb-1.5">Amount (₹)</label>
+                    <input type="number" [(ngModel)]="walletTopupAmount"
+                      class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white"
+                      placeholder="500">
+                  </div>
+                  <button (click)="topupWallet()" [disabled]="walletTopupLoading || walletTopupAmount <= 0"
+                    class="px-6 py-2.5 bg-emerald-600 text-white rounded-xl font-semibold text-sm shadow hover:bg-emerald-700 transition-all disabled:opacity-50 flex items-center gap-2">
+                    <svg *ngIf="walletTopupLoading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                    Top Up
+                  </button>
+                </div>
+                <div *ngIf="walletTopupMessage" class="mt-2 text-sm"
+                  [ngClass]="walletTopupError ? 'text-red-600' : 'text-green-600'">{{ walletTopupMessage }}</div>
+              </div>
+
+              <!-- Wallet Pay -->
+              <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                <h4 class="text-sm font-bold text-slate-700 mb-3">👛 Pay from Wallet</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1.5">Receiver VPA</label>
+                    <input type="text" [(ngModel)]="walletPayModel.receiverVpa"
+                      class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 bg-white"
+                      placeholder="user@paysense">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1.5">Amount (₹)</label>
+                    <input type="number" [(ngModel)]="walletPayModel.amount"
+                      class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 bg-white"
+                      placeholder="100">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1.5">Description</label>
+                    <input type="text" [(ngModel)]="walletPayModel.description"
+                      class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 bg-white"
+                      placeholder="Split bill">
+                  </div>
+                </div>
+                <div *ngIf="walletPayMessage" class="mt-2 text-sm"
+                  [ngClass]="walletPayError ? 'text-red-600' : 'text-green-600'">{{ walletPayMessage }}</div>
+                <button (click)="sendWalletPayment()" [disabled]="walletPayLoading || !walletPayModel.receiverVpa || walletPayModel.amount <= 0"
+                  class="mt-3 px-6 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold text-sm hover:bg-indigo-700 transition-all disabled:opacity-50 flex items-center gap-2">
+                  <svg *ngIf="walletPayLoading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                  Pay from Wallet
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Recent Transactions mini-preview -->
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm">
+          <div class="flex items-center justify-between p-5 border-b border-slate-100">
+            <h3 class="font-bold text-slate-800">Recent Transactions</h3>
+            <button (click)="activeView = 'history'" class="text-indigo-600 text-sm font-medium hover:underline">View All →</button>
+          </div>
+          <div *ngIf="isLoadingHistory" class="p-6 space-y-3">
+            <div *ngFor="let i of [1,2,3]" class="h-10 bg-slate-100 rounded-lg animate-pulse"></div>
+          </div>
+          <div *ngIf="!isLoadingHistory && paymentHistory.length === 0"
+            class="p-8 text-center text-slate-400 text-sm">No transactions yet. Send your first payment above!</div>
+          <div *ngIf="!isLoadingHistory && paymentHistory.length > 0" class="divide-y divide-slate-50">
+            <div *ngFor="let tx of paymentHistory.slice(0, 5)" class="flex items-center gap-4 px-5 py-3.5">
+              <div class="w-9 h-9 rounded-full flex items-center justify-center text-lg shrink-0"
+                [ngClass]="tx.status === 'SUCCESS' ? 'bg-green-50' : tx.status === 'PENDING' ? 'bg-yellow-50' : 'bg-red-50'">
+                {{ getPaymentTypeLabel(tx.paymentType).split(' ')[0] }}
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-semibold text-slate-700 truncate">{{ tx.description || tx.paymentType + ' Payment' }}</p>
+                <p class="text-xs text-slate-400">{{ tx.initiatedAt | date:'dd MMM, h:mm a' }}</p>
+              </div>
+              <div class="text-right shrink-0">
+                <p class="text-sm font-bold text-slate-800">₹{{ tx.amount | number:'1.2-2' }}</p>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded-full" [ngClass]="getStatusClass(tx.status)">{{ tx.status }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- end DASHBOARD VIEW -->
+
+      <!-- ─── HISTORY VIEW ─── -->
+      <div *ngIf="activeView === 'history'" class="p-6 max-w-5xl mx-auto space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-bold text-slate-800">All Transactions</h3>
+          <button (click)="fetchPaymentHistory()" class="text-sm text-indigo-600 hover:underline">Refresh</button>
+        </div>
+        <div *ngIf="isLoadingHistory" class="space-y-3">
+          <div *ngFor="let i of [1,2,3,4,5]" class="h-14 bg-slate-100 rounded-xl animate-pulse"></div>
+        </div>
+        <div *ngIf="!isLoadingHistory && paymentHistory.length === 0"
+          class="bg-white rounded-2xl border border-slate-200 p-12 text-center text-slate-400">
+          <svg class="w-12 h-12 mx-auto mb-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+          <p>No transactions yet.</p>
+        </div>
+        <div *ngIf="!isLoadingHistory && paymentHistory.length > 0" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead class="bg-slate-50 border-b border-slate-200">
+                <tr>
+                  <th class="text-left px-5 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Type</th>
+                  <th class="text-left px-5 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Description</th>
+                  <th class="text-left px-5 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">UTR</th>
+                  <th class="text-right px-5 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Amount</th>
+                  <th class="text-center px-5 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Status</th>
+                  <th class="text-left px-5 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Date</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr *ngFor="let tx of paymentHistory" class="hover:bg-slate-50 transition-colors">
+                  <td class="px-5 py-3.5">
+                    <span class="text-base">{{ getPaymentTypeLabel(tx.paymentType).split(' ')[0] }}</span>
+                    <span class="ml-1 text-xs text-slate-500 font-medium">{{ tx.paymentType }}</span>
+                  </td>
+                  <td class="px-5 py-3.5 text-slate-700 max-w-[180px] truncate">{{ tx.description || '—' }}</td>
+                  <td class="px-5 py-3.5 font-mono text-xs text-slate-500">{{ tx.utrNumber || '—' }}</td>
+                  <td class="px-5 py-3.5 text-right font-bold text-slate-800">₹{{ tx.amount | number:'1.2-2' }}</td>
+                  <td class="px-5 py-3.5 text-center">
+                    <span class="px-2.5 py-1 rounded-full text-xs font-bold" [ngClass]="getStatusClass(tx.status)">{{ tx.status }}</span>
+                  </td>
+                  <td class="px-5 py-3.5 text-xs text-slate-500">{{ tx.initiatedAt | date:'dd MMM yyyy, h:mm a' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- end HISTORY VIEW -->
+
+      <!-- ─── NOTIFICATIONS VIEW ─── -->
+      <div *ngIf="activeView === 'notifications'" class="p-6 max-w-3xl mx-auto space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-bold text-slate-800">Notifications <span *ngIf="unreadCount > 0" class="ml-2 text-sm font-normal text-red-500">({{ unreadCount }} unread)</span></h3>
+          <button (click)="fetchNotifications()" class="text-sm text-indigo-600 hover:underline">Refresh</button>
+        </div>
+        <div *ngIf="isLoadingNotifs" class="space-y-3">
+          <div *ngFor="let i of [1,2,3]" class="h-20 bg-slate-100 rounded-xl animate-pulse"></div>
+        </div>
+        <div *ngIf="!isLoadingNotifs && allNotifications.length === 0"
+          class="bg-white rounded-2xl border border-slate-200 p-12 text-center text-slate-400">
+          <svg class="w-12 h-12 mx-auto mb-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+          <p>No notifications yet.</p>
+        </div>
+        <div *ngIf="!isLoadingNotifs && allNotifications.length > 0" class="space-y-3">
+          <div *ngFor="let notif of allNotifications"
+            class="bg-white rounded-xl border p-4 flex gap-4 cursor-pointer hover:shadow-sm transition-all"
+            [ngClass]="{
+              'border-slate-200': notif.isRead,
+              'border-indigo-200 bg-indigo-50/30': !notif.isRead,
+              'border-l-4 border-l-green-500': notif.type === 'PAYMENT_SUCCESS',
+              'border-l-4 border-l-red-500': notif.type === 'FRAUD_ALERT',
+              'border-l-4 border-l-red-400': notif.type === 'PAYMENT_FAILED'
+            }"
+            (click)="markNotificationRead(notif)">
+            <!-- Icon -->
+            <div class="shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-lg"
+              [ngClass]="notif.type === 'PAYMENT_SUCCESS' ? 'bg-green-100' : notif.type === 'FRAUD_ALERT' ? 'bg-red-100' : 'bg-indigo-100'">
+              <span *ngIf="notif.type === 'PAYMENT_SUCCESS'">✅</span>
+              <span *ngIf="notif.type === 'FRAUD_ALERT'">🚨</span>
+              <span *ngIf="notif.type === 'PAYMENT_FAILED'">❌</span>
+              <span *ngIf="notif.type !== 'PAYMENT_SUCCESS' && notif.type !== 'FRAUD_ALERT' && notif.type !== 'PAYMENT_FAILED'">🔔</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-start justify-between gap-2">
+                <p class="text-sm font-bold text-slate-800">{{ notif.title }}</p>
+                <span *ngIf="!notif.isRead" class="shrink-0 w-2 h-2 mt-1.5 bg-indigo-500 rounded-full"></span>
+              </div>
+              <p class="text-sm text-slate-600 mt-0.5 leading-snug">{{ notif.body }}</p>
+              <p class="text-xs text-slate-400 mt-1.5">{{ notif.timestamp | date:'dd MMM yyyy, h:mm a' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end NOTIFICATIONS VIEW -->
+
+    </div>
+  </main>
+
+  <!-- ─── SSE Toast Overlay ─── -->
+  <div class="fixed top-4 right-4 z-50 flex flex-col gap-3 pointer-events-none max-w-sm w-full">
+    <div *ngFor="let notif of toasts"
+      class="pointer-events-auto w-full bg-white border rounded-xl shadow-2xl p-4 flex gap-3 items-start"
+      [ngClass]="{
+        'border-l-4 border-green-500': notif.type === 'PAYMENT_SUCCESS',
+        'border-l-4 border-red-500 bg-red-50': notif.type === 'FRAUD_ALERT',
+        'border-l-4 border-yellow-500': notif.type === 'PAYMENT_FAILED',
+        'border border-slate-200': notif.type !== 'PAYMENT_SUCCESS' && notif.type !== 'FRAUD_ALERT' && notif.type !== 'PAYMENT_FAILED'
+      }">
+      <div class="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm"
+        [ngClass]="notif.type === 'PAYMENT_SUCCESS' ? 'bg-green-100' : notif.type === 'FRAUD_ALERT' ? 'bg-red-100' : 'bg-yellow-100'">
+        <span *ngIf="notif.type === 'PAYMENT_SUCCESS'">✅</span>
+        <span *ngIf="notif.type === 'FRAUD_ALERT'">🚨</span>
+        <span *ngIf="notif.type === 'PAYMENT_FAILED'">❌</span>
+        <span *ngIf="notif.type !== 'PAYMENT_SUCCESS' && notif.type !== 'FRAUD_ALERT' && notif.type !== 'PAYMENT_FAILED'">🔔</span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-bold text-slate-800">{{ notif.title }}</p>
+        <p class="text-xs text-slate-600 mt-0.5 leading-snug">{{ notif.body }}</p>
+        <p class="text-xs text-slate-400 mt-1">{{ notif.timestamp | date:'h:mm a' }}</p>
+      </div>
+      <button (click)="dismissToast(notif)" class="shrink-0 text-slate-400 hover:text-slate-600 transition-colors">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
+    </div>
+  </div>
+
+</div>
+

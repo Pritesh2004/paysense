@@ -17,7 +17,7 @@ import java.util.UUID;
  *   - payment.failed    : failed payments (consumed by notification service)
  *   - payment.initiated : payment initiation (consumed by fraud service for async check)
  */
-@Service
+// @Service
 public class KafkaProducerService {
 
     private static final Logger log = LoggerFactory.getLogger(KafkaProducerService.class);

@@ -14,6 +14,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/payments/accounts")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class AccountController {
 
     private final AccountService accountService;

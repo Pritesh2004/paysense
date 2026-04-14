@@ -2,6 +2,25 @@
   "/api/auth": {
     "target": "http://localhost:8081",
     "secure": false,
-    "changeOrigin": true
+    "changeOrigin": true,
+    "logLevel": "info"
+  },
+  "/api/payments": {
+    "target": "http://localhost:8082",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
+  },
+  "/api/fraud": {
+    "target": "http://localhost:8084",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
+  },
+  "/api/notifications": {
+    "target": "http://localhost:8085",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
   }
 }

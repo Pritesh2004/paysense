@@ -1,0 +1,42 @@
+# ── Java / Maven ──────────────────────────────────────────
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.orig
+maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.jar
+
+# ── Spring Boot ───────────────────────────────────────────
+HELP.md
+spring.pid
+
+# ── Node / Angular ────────────────────────────────────────
+node_modules/
+dist/
+.angular/
+.cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── IDE / Editor ──────────────────────────────────────────
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ── Logs ──────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Docs folder (excluded from git) ──────────────────────
+docs/

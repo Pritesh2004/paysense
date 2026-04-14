@@ -15,6 +15,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/payments")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class PaymentController {
 
     private final PaymentService paymentService;

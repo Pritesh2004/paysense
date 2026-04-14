@@ -11,6 +11,7 @@ import com.paysense.auth.repository.RefreshTokenRepository;
 import com.paysense.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,7 +33,9 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final JwtProperties jwtProperties;
-    // For REST call to payment service, using WebClient builder later or directly.
+
+    @Value("${app.payment-service.url:http://localhost:8082}")
+    private String paymentServiceUrl;
 
     @Transactional
     public TokenResponse register(RegisterRequest request) {
@@ -58,8 +61,7 @@ public class AuthService {
         var savedUser = userRepository.save(user);
 
         // Here you would make a REST call to payment-service to create account
-        // Assuming webClient setup or a placeholder.
-        createAccountInPaymentService(savedUser.getId().toString());
+        createAccountInPaymentService(savedUser);
 
         var jwtToken = jwtService.generateAccessToken(savedUser);
         var refreshToken = jwtService.generateRefreshToken();
@@ -151,8 +153,22 @@ public class AuthService {
         }
     }
 
-    private void createAccountInPaymentService(String userId) {
-        LoggerFactory.getLogger(AuthService.class).info("Calling payment service to create account for user: " + userId);
-        // Placeholder for WebClient call mapping. It'll be implemented later or if explicitly configured.
+    private void createAccountInPaymentService(User user) {
+        LoggerFactory.getLogger(AuthService.class).info("Calling payment service to create account for user: " + user.getId());
+        try {
+            org.springframework.web.client.RestTemplate restTemplate = new org.springframework.web.client.RestTemplate();
+            String url = paymentServiceUrl + "/api/payments/accounts/create";
+
+            java.util.Map<String, String> request = new java.util.HashMap<>();
+            request.put("userId", user.getId().toString());
+            request.put("email", user.getEmail());
+            request.put("fullName", user.getFullName());
+
+            restTemplate.postForObject(url, request, Object.class);
+            LoggerFactory.getLogger(AuthService.class).info("Successfully created payment account for user: " + user.getId());
+        } catch (Exception e) {
+            LoggerFactory.getLogger(AuthService.class).error("Failed to create payment account for user: " + user.getId(), e);
+            // In a production resilient system, this should push to a dead letter queue or retry.
+        }
     }
 }
