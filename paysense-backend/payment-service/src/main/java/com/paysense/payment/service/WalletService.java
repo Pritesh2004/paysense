@@ -70,12 +70,14 @@ public class WalletService {
         walletRepository.save(wallet);
 
         // Create payment request record
+        String utr = generateWalletUtr("WTOP");
         PaymentRequest pr = PaymentRequest.builder()
                 .idempotencyKey(idempotencyKey)
                 .senderAccountId(account.getId())
                 .amount(amount)
                 .paymentType("TOPUP")
                 .status("SUCCESS")
+                .utrNumber(utr)
                 .description("Wallet top-up from account")
                 .settledAt(LocalDateTime.now())
                 .build();
@@ -142,6 +144,7 @@ public class WalletService {
         walletRepository.save(receiverWallet);
 
         // Create payment request
+        String utr = generateWalletUtr("WPAY");
         PaymentRequest pr = PaymentRequest.builder()
                 .idempotencyKey(idempotencyKey)
                 .senderAccountId(senderAccount.getId())
@@ -149,6 +152,7 @@ public class WalletService {
                 .amount(amount)
                 .paymentType("WALLET")
                 .status("SUCCESS")
+                .utrNumber(utr)
                 .description(description != null ? description : "Wallet payment to " + receiverVpa)
                 .settledAt(LocalDateTime.now())
                 .build();
@@ -182,5 +186,11 @@ public class WalletService {
                 .settledAt(pr.getSettledAt())
                 .message(message)
                 .build();
+    }
+
+    private String generateWalletUtr(String prefix) {
+        String datePart = LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd"));
+        int randomPart = 100_000 + new java.util.Random().nextInt(900_000); 
+        return prefix + datePart + randomPart;
     }
 }

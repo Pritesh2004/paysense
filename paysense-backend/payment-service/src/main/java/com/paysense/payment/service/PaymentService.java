@@ -257,14 +257,20 @@ public class PaymentService {
 
     // ── Payment History ─────────────────────────────────────
 
-    /**
-     * Get all payments for a user's account.
-     */
     public List<PaymentResponse> getPaymentHistory(UUID userId) {
         Account account = accountRepository.findByUserId(userId)
                 .orElseThrow(() -> new AccountNotFoundException("Account not found for user: " + userId));
 
-        return paymentRequestRepository.findBySenderAccountId(account.getId())
+        List<String> vpas = vpaRegistryRepository.findByAccountIdAndIsActiveTrue(account.getId())
+                .stream()
+                .map(VpaRegistry::getVpa)
+                .toList();
+        
+        if (vpas.isEmpty()) {
+            vpas = List.of("DUMMY_NO_VPA");
+        }
+
+        return paymentRequestRepository.findPaymentHistory(account.getId(), account.getAccountNumber(), vpas)
                 .stream()
                 .map(pr -> mapToResponse(pr, null))
                 .toList();
@@ -316,6 +322,7 @@ public class PaymentService {
                 .initiatedAt(pr.getInitiatedAt())
                 .settledAt(pr.getSettledAt())
                 .message(message)
+                .senderAccountId(pr.getSenderAccountId())
                 .build();
     }
 }

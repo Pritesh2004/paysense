@@ -36,11 +36,13 @@ export class AuthService {
     this.accessToken = localStorage.getItem(this.ACCESS_TOKEN_KEY);
     this.refreshTokenVal = localStorage.getItem(this.REFRESH_TOKEN_KEY);
     if (this.accessToken) {
-      this.fetchCurrentUser().subscribe({
-        error: () => this.refreshToken().subscribe({
-          error: () => this.logoutLocal()
-        })
-      });
+      setTimeout(() => {
+        this.fetchCurrentUser().subscribe({
+          error: () => this.refreshToken().subscribe({
+            error: () => this.logoutLocal()
+          })
+        });
+      }, 0);
     }
   }
 
@@ -104,12 +106,13 @@ export class AuthService {
   }
 
   public logoutLocal(): void {
-    this.accessToken = null;
-    this.refreshTokenVal = null;
-    localStorage.removeItem(this.ACCESS_TOKEN_KEY);
-    localStorage.removeItem(this.REFRESH_TOKEN_KEY);
-    this.currentUserSubject.next(null);
-    this.router.navigate(['/login']);
+    console.error('logoutLocal() called! Preventing aggressive logout. Check network tab to see what API failed.');
+    // this.accessToken = null;
+    // this.refreshTokenVal = null;
+    // localStorage.removeItem(this.ACCESS_TOKEN_KEY);
+    // localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+    // this.currentUserSubject.next(null);
+    // this.router.navigate(['/login']);
   }
 
   private fetchCurrentUser(): Observable<any> {

@@ -35,6 +35,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   isLoadingHistory = false;
   isLoadingNotifs = false;
 
+  switchTab(tab: ActiveTab) {
+    this.activeTab = tab;
+    this.upiMessage = '';
+    this.neftMessage = '';
+    this.walletTopupMessage = '';
+    this.walletPayMessage = '';
+  }
+
   // ── UPI Form ───────────────────────────────────────────
   upiModel: UpiPaymentRequest = { receiverVpa: '', amount: 0, description: '' };
   upiLoading = false;
@@ -293,6 +301,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   getUserName(): string {
     return this.currentUser?.fullName || 'User';
+  }
+
+  isSender(tx: PaymentResponse): boolean {
+    if (!this.accountDetails) return false;
+    return tx.senderAccountId === this.accountDetails.id;
   }
 }
 

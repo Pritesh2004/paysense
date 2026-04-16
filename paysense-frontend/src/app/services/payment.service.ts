@@ -62,6 +62,7 @@ export interface PaymentResponse {
   initiatedAt: string;
   settledAt: string;
   message: string;
+  senderAccountId: string;
 }
 
 export interface AdminTopupRequest {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
@@ -15,12 +15,20 @@ export class JwtInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(private authService: AuthService) {}
+  constructor(private injector: Injector) {}
+
+  private get authService(): AuthService {
+    return this.injector.get(AuthService);
+  }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     // Add auth header with jwt if user is logged in
     const token = this.authService.token;
-    if (token) {
+    const isAuthRoute = request.url.includes('/api/auth/login') || 
+                        request.url.includes('/api/auth/register') || 
+                        request.url.includes('/api/auth/refresh');
+                        
+    if (token && !isAuthRoute) {
       request = this.addToken(request, token);
     }
 

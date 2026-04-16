@@ -3,7 +3,7 @@
   <!-- Left Sidebar -->
   <aside class="hidden md:flex flex-col w-64 bg-slate-900 text-white shadow-xl z-20 shrink-0">
     <div class="p-6 flex items-center gap-3 border-b border-slate-700/50">
-      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">P</div>
+      <img src="assets/logo.png" alt="PaySense" class="h-8 w-8 rounded-xl shadow-lg" />
       <h1 class="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">PaySense</h1>
     </div>
 
@@ -107,8 +107,8 @@
             <div class="flex items-center justify-between mb-2">
               <p class="text-slate-500 text-xs font-semibold uppercase tracking-widest">Wallet Balance</p>
               <span class="px-2.5 py-0.5 text-xs font-bold rounded-full"
-                [ngClass]="accountDetails?.wallet?.status === 'ACTIVE' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'">
-                {{ accountDetails?.wallet?.status || 'ACTIVE' }}
+                [ngClass]="(accountDetails?.wallet?.status || 'NOT SETUP') === 'ACTIVE' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'">
+                {{ accountDetails?.wallet?.status || 'NOT SETUP' }}
               </span>
             </div>
             <div *ngIf="isLoadingAccount" class="h-10 w-28 bg-slate-100 rounded animate-pulse mt-1"></div>
@@ -130,17 +130,17 @@
         <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
           <div class="border-b border-slate-200 px-6">
             <div class="flex gap-1 -mb-px">
-              <button (click)="activeTab = 'upi'"
+              <button (click)="switchTab('upi')"
                 class="px-5 py-4 text-sm font-semibold border-b-2 transition-colors"
                 [ngClass]="activeTab === 'upi' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-slate-500 hover:text-slate-700'">
                 📱 UPI
               </button>
-              <button (click)="activeTab = 'neft'"
+              <button (click)="switchTab('neft')"
                 class="px-5 py-4 text-sm font-semibold border-b-2 transition-colors"
                 [ngClass]="activeTab === 'neft' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-slate-500 hover:text-slate-700'">
                 🏦 NEFT
               </button>
-              <button (click)="activeTab = 'wallet'"
+              <button (click)="switchTab('wallet')"
                 class="px-5 py-4 text-sm font-semibold border-b-2 transition-colors"
                 [ngClass]="activeTab === 'wallet' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-slate-500 hover:text-slate-700'">
                 👛 Wallet
@@ -296,16 +296,27 @@
           <div *ngIf="!isLoadingHistory && paymentHistory.length > 0" class="divide-y divide-slate-50">
             <div *ngFor="let tx of paymentHistory.slice(0, 5)" class="flex items-center gap-4 px-5 py-3.5">
               <div class="w-9 h-9 rounded-full flex items-center justify-center text-lg shrink-0"
-                [ngClass]="tx.status === 'SUCCESS' ? 'bg-green-50' : tx.status === 'PENDING' ? 'bg-yellow-50' : 'bg-red-50'">
-                {{ getPaymentTypeLabel(tx.paymentType).split(' ')[0] }}
+                [ngClass]="tx.status === 'SUCCESS' ? 'bg-indigo-50 border border-indigo-100' : tx.status === 'PENDING' ? 'bg-yellow-50 border border-yellow-200' : 'bg-red-50 border border-red-200'">
+                <span *ngIf="tx.status === 'FAILED'">❌</span>
+                <span *ngIf="tx.status !== 'FAILED'">{{ getPaymentTypeLabel(tx.paymentType).split(' ')[0] }}</span>
               </div>
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-semibold text-slate-700 truncate">{{ tx.description || tx.paymentType + ' Payment' }}</p>
+                <p class="text-sm font-semibold truncate" [ngClass]="tx.status === 'FAILED' ? 'text-slate-500 line-through' : 'text-slate-700'">{{ tx.description || tx.paymentType + ' Payment' }}</p>
                 <p class="text-xs text-slate-400">{{ tx.initiatedAt | date:'dd MMM, h:mm a' }}</p>
+                <p *ngIf="tx.message && tx.status === 'FAILED'" class="text-xs text-red-500 mt-0.5 truncate flex items-center gap-1"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>{{ tx.message }}</p>
+                <p *ngIf="tx.message && tx.status !== 'FAILED'" class="text-xs text-slate-500 mt-0.5 truncate">{{ tx.message }}</p>
               </div>
               <div class="text-right shrink-0">
-                <p class="text-sm font-bold text-slate-800">₹{{ tx.amount | number:'1.2-2' }}</p>
-                <span class="text-xs font-semibold px-2 py-0.5 rounded-full" [ngClass]="getStatusClass(tx.status)">{{ tx.status }}</span>
+                <p class="text-sm font-bold truncate"
+                  [ngClass]="{
+                    'text-green-600': !isSender(tx) && tx.status === 'SUCCESS',
+                    'text-slate-800': isSender(tx) && tx.status === 'SUCCESS',
+                    'text-slate-400': tx.status === 'FAILED',
+                    'text-yellow-600': tx.status === 'PENDING'
+                  }">
+                  {{ isSender(tx) ? '-' : '+' }} ₹{{ tx.amount | number:'1.2-2' }}
+                </p>
+                <span class="text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full mt-1 inline-block" [ngClass]="getStatusClass(tx.status)">{{ tx.status }}</span>
               </div>
             </div>
           </div>
@@ -343,15 +354,28 @@
               </thead>
               <tbody class="divide-y divide-slate-100">
                 <tr *ngFor="let tx of paymentHistory" class="hover:bg-slate-50 transition-colors">
-                  <td class="px-5 py-3.5">
-                    <span class="text-base">{{ getPaymentTypeLabel(tx.paymentType).split(' ')[0] }}</span>
+                  <td class="px-5 py-3.5" [ngClass]="tx.status === 'FAILED' ? 'opacity-60' : ''">
+                    <span class="text-base" *ngIf="tx.status !== 'FAILED'">{{ getPaymentTypeLabel(tx.paymentType).split(' ')[0] }}</span>
+                    <span class="text-base" *ngIf="tx.status === 'FAILED'">❌</span>
                     <span class="ml-1 text-xs text-slate-500 font-medium">{{ tx.paymentType }}</span>
                   </td>
-                  <td class="px-5 py-3.5 text-slate-700 max-w-[180px] truncate">{{ tx.description || '—' }}</td>
-                  <td class="px-5 py-3.5 font-mono text-xs text-slate-500">{{ tx.utrNumber || '—' }}</td>
-                  <td class="px-5 py-3.5 text-right font-bold text-slate-800">₹{{ tx.amount | number:'1.2-2' }}</td>
+                  <td class="px-5 py-3.5 max-w-[180px]">
+                    <p class="truncate font-medium text-sm" [ngClass]="tx.status === 'FAILED' ? 'text-slate-500 line-through' : 'text-slate-700'">{{ tx.description || '—' }}</p>
+                    <p *ngIf="tx.message && tx.status === 'FAILED'" class="text-xs text-red-500 mt-0.5 truncate flex items-center gap-1"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>{{ tx.message }}</p>
+                    <p *ngIf="tx.message && tx.status !== 'FAILED'" class="text-xs text-slate-500 mt-0.5 truncate">{{ tx.message }}</p>
+                  </td>
+                  <td class="px-5 py-3.5 font-mono text-xs text-slate-500" [ngClass]="tx.status === 'FAILED' ? 'opacity-60' : ''">{{ tx.utrNumber || '—' }}</td>
+                  <td class="px-5 py-3.5 text-right font-bold"
+                    [ngClass]="{
+                      'text-green-600': !isSender(tx) && tx.status === 'SUCCESS',
+                      'text-slate-800': isSender(tx) && tx.status === 'SUCCESS',
+                      'text-slate-400': tx.status === 'FAILED',
+                      'text-yellow-600': tx.status === 'PENDING'
+                    }">
+                    {{ isSender(tx) ? '-' : '+' }} ₹{{ tx.amount | number:'1.2-2' }}
+                  </td>
                   <td class="px-5 py-3.5 text-center">
-                    <span class="px-2.5 py-1 rounded-full text-xs font-bold" [ngClass]="getStatusClass(tx.status)">{{ tx.status }}</span>
+                    <span class="px-2.5 py-1 rounded-full text-[10px] uppercase tracking-wider font-bold" [ngClass]="getStatusClass(tx.status)">{{ tx.status }}</span>
                   </td>
                   <td class="px-5 py-3.5 text-xs text-slate-500">{{ tx.initiatedAt | date:'dd MMM yyyy, h:mm a' }}</td>
                 </tr>
