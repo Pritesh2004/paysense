@@ -35,12 +35,14 @@ public class User implements UserDetails {
     @Builder.Default
     private UUID id = UUID.randomUUID();
 
+    @jakarta.persistence.Column(unique = true)
     private String email;
 
     private String passwordHash;
 
     private String fullName;
 
+    @jakarta.persistence.Column(unique = true)
     private String phone;
 
     @Enumerated(EnumType.STRING)

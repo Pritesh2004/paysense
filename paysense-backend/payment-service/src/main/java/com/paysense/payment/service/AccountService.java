@@ -38,6 +38,23 @@ public class AccountService {
      */
     private static final AtomicLong ACCOUNT_SEQ = new AtomicLong(1000);
 
+    @jakarta.annotation.PostConstruct
+    public void seedInitialMoney() {
+        log.info("Seeding test money to all existing accounts...");
+        accountRepository.findAll().forEach(acc -> {
+            if (acc.getBalance().compareTo(new BigDecimal("10000")) < 0) {
+                acc.setBalance(new BigDecimal("10000.00"));
+                accountRepository.save(acc);
+            }
+        });
+        walletRepository.findAll().forEach(w -> {
+            if (w.getBalance().compareTo(new BigDecimal("5000")) < 0) {
+                w.setBalance(new BigDecimal("5000.00"));
+                walletRepository.save(w);
+            }
+        });
+    }
+
     /**
      * Creates a new account + wallet + default VPA for a user.
      * Called by Auth Service on user registration.
@@ -54,7 +71,7 @@ public class AccountService {
                 .userId(request.getUserId())
                 .accountNumber(accountNumber)
                 .ifscCode("PAYS0000001")
-                .balance(BigDecimal.ZERO)
+                .balance(new BigDecimal("10000.00"))
                 .accountType("SAVINGS")
                 .status("ACTIVE")
                 .build();
@@ -64,7 +81,7 @@ public class AccountService {
         // 2. Create Wallet
         Wallet wallet = Wallet.builder()
                 .userId(request.getUserId())
-                .balance(BigDecimal.ZERO)
+                .balance(new BigDecimal("5000.00"))
                 .dailyLimit(new BigDecimal("10000.00"))
                 .todaySpent(BigDecimal.ZERO)
                 .status("ACTIVE")

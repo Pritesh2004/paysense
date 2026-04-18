@@ -106,13 +106,12 @@ export class AuthService {
   }
 
   public logoutLocal(): void {
-    console.error('logoutLocal() called! Preventing aggressive logout. Check network tab to see what API failed.');
-    // this.accessToken = null;
-    // this.refreshTokenVal = null;
-    // localStorage.removeItem(this.ACCESS_TOKEN_KEY);
-    // localStorage.removeItem(this.REFRESH_TOKEN_KEY);
-    // this.currentUserSubject.next(null);
-    // this.router.navigate(['/login']);
+    this.accessToken = null;
+    this.refreshTokenVal = null;
+    localStorage.removeItem(this.ACCESS_TOKEN_KEY);
+    localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+    this.currentUserSubject.next(null);
+    this.router.navigate(['/login']);
   }
 
   private fetchCurrentUser(): Observable<any> {

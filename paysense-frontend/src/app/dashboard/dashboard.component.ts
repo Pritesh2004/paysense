@@ -30,6 +30,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   activeTab: ActiveTab = 'upi';
   activeView: ActiveView = 'dashboard';
+  historyFilter: 'ALL' | 'SUCCESS' | 'FAILED' = 'ALL';
+  showProfileDropdown = false;
 
   isLoadingAccount = false;
   isLoadingHistory = false;
@@ -41,6 +43,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.neftMessage = '';
     this.walletTopupMessage = '';
     this.walletPayMessage = '';
+  }
+
+  toggleProfileDropdown() {
+    this.showProfileDropdown = !this.showProfileDropdown;
   }
 
   // ── UPI Form ───────────────────────────────────────────
@@ -273,9 +279,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // ── Auth ───────────────────────────────────────────────
 
   logout() {
+    this.showProfileDropdown = false;
     this.authService.logout().subscribe({
-      next: () => {},
-      error: () => {}
+      next: () => {
+         this.authService.logoutLocal();
+      },
+      error: () => {
+         this.authService.logoutLocal();
+      }
     });
   }
 
@@ -306,6 +317,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
   isSender(tx: PaymentResponse): boolean {
     if (!this.accountDetails) return false;
     return tx.senderAccountId === this.accountDetails.id;
+  }
+
+  get filteredHistory(): PaymentResponse[] {
+    if (this.historyFilter === 'ALL') return this.paymentHistory;
+    return this.paymentHistory.filter(tx => tx.status === this.historyFilter);
+  }
+
+  get totalTransactions(): number {
+    return this.paymentHistory.length;
+  }
+
+  get totalSpent(): number {
+    return this.paymentHistory
+      .filter(tx => this.isSender(tx) && tx.status === 'SUCCESS')
+      .reduce((sum, tx) => sum + tx.amount, 0);
+  }
+
+  get totalReceived(): number {
+    return this.paymentHistory
+      .filter(tx => !this.isSender(tx) && tx.status === 'SUCCESS')
+      .reduce((sum, tx) => sum + tx.amount, 0);
   }
 }
 

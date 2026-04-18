@@ -22,6 +22,7 @@ import java.security.MessageDigest;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Optional;
+import com.paysense.auth.exception.AuthException;
 
 @Service
 @RequiredArgsConstructor
@@ -40,10 +41,10 @@ public class AuthService {
     @Transactional
     public TokenResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already exists");
+            throw new AuthException("Email already exists");
         }
         if (userRepository.existsByPhone(request.getPhone())) {
-            throw new RuntimeException("Phone already exists");
+            throw new AuthException("Phone already exists");
         }
 
         var user = User.builder()
@@ -85,7 +86,7 @@ public class AuthService {
                 )
         );
         var user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new AuthException("User not found"));
 
         var jwtToken = jwtService.generateAccessToken(user);
         var refreshToken = jwtService.generateRefreshToken();
@@ -104,10 +105,10 @@ public class AuthService {
     public TokenResponse refreshToken(String token) {
         String tokenHash = hashToken(token);
         RefreshToken storedToken = refreshTokenRepository.findByTokenHash(tokenHash)
-                .orElseThrow(() -> new RuntimeException("Refresh token not found"));
+                .orElseThrow(() -> new AuthException("Refresh token not found"));
 
         if (storedToken.getIsRevoked() || storedToken.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("Refresh token expired or revoked");
+            throw new AuthException("Refresh token expired or revoked");
         }
 
         var user = storedToken.getUser();
