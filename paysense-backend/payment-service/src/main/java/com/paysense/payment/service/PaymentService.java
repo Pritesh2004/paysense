@@ -257,7 +257,7 @@ public class PaymentService {
 
     // ── Payment History ─────────────────────────────────────
 
-    public List<PaymentResponse> getPaymentHistory(UUID userId) {
+    public org.springframework.data.domain.Page<PaymentResponse> getPaymentHistory(UUID userId, org.springframework.data.domain.Pageable pageable) {
         Account account = accountRepository.findByUserId(userId)
                 .orElseThrow(() -> new AccountNotFoundException("Account not found for user: " + userId));
 
@@ -270,10 +270,8 @@ public class PaymentService {
             vpas = List.of("DUMMY_NO_VPA");
         }
 
-        return paymentRequestRepository.findPaymentHistory(account.getId(), account.getAccountNumber(), vpas)
-                .stream()
-                .map(pr -> mapToResponse(pr, null))
-                .toList();
+        return paymentRequestRepository.findPaymentHistory(account.getId(), account.getAccountNumber(), vpas, pageable)
+                .map(pr -> mapToResponse(pr, null));
     }
 
     /**
@@ -310,6 +308,11 @@ public class PaymentService {
     }
 
     private PaymentResponse mapToResponse(PaymentRequest pr, String message) {
+        String senderVpa = null;
+        if (pr.getSenderAccountId() != null) {
+            senderVpa = vpaRegistryRepository.findByAccountIdAndIsActiveTrue(pr.getSenderAccountId())
+                    .stream().findFirst().map(VpaRegistry::getVpa).orElse(null);
+        }
         return PaymentResponse.builder()
                 .paymentRequestId(pr.getId())
                 .idempotencyKey(pr.getIdempotencyKey())
@@ -323,6 +326,8 @@ public class PaymentService {
                 .settledAt(pr.getSettledAt())
                 .message(message)
                 .senderAccountId(pr.getSenderAccountId())
+                .senderVpa(senderVpa)
+                .receiverVpa(pr.getReceiverVpa())
                 .build();
     }
 }

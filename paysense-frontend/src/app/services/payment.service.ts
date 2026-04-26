@@ -63,11 +63,40 @@ export interface PaymentResponse {
   settledAt: string;
   message: string;
   senderAccountId: string;
+  senderVpa?: string;
+  receiverVpa?: string;
+}
+
+export interface PaginatedPaymentResponse {
+  content: PaymentResponse[];
+  pageable: any;
+  last: boolean;
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  number: number;
+  first: boolean;
+  numberOfElements: number;
+  empty: boolean;
 }
 
 export interface AdminTopupRequest {
   userId: string;
   amount: number;
+}
+
+export interface RazorpayOrderResponse {
+  orderId: string;
+  amountInPaise: number;
+  currency: string;
+  keyId: string;
+  transactionId: string;
+}
+
+export interface RazorpayVerifyRequest {
+  razorpayOrderId: string;
+  razorpayPaymentId: string;
+  razorpaySignature: string;
 }
 
 @Injectable({
@@ -89,10 +118,6 @@ export class PaymentService {
     });
   }
 
-  private getIdempotentHeaders(): HttpHeaders {
-    return this.getAuthHeaders().set('X-Idempotency-Key', crypto.randomUUID());
-  }
-
   // ── Account ─────────────────────────────────────────────
 
   getAccountDetails(): Observable<AccountResponse> {
@@ -111,39 +136,61 @@ export class PaymentService {
 
   // ── UPI ─────────────────────────────────────────────────
 
-  sendUpiPayment(request: UpiPaymentRequest): Observable<PaymentResponse> {
+  sendUpiPayment(request: UpiPaymentRequest, idempotencyKey: string): Observable<PaymentResponse> {
     return this.http.post<PaymentResponse>(`${this.apiUrl}/payments/upi`, request, {
-      headers: this.getIdempotentHeaders()
+      headers: this.getAuthHeaders().set('X-Idempotency-Key', idempotencyKey)
     });
   }
 
   // ── NEFT ────────────────────────────────────────────────
 
-  sendNeftPayment(request: NeftPaymentRequest): Observable<PaymentResponse> {
+  sendNeftPayment(request: NeftPaymentRequest, idempotencyKey: string): Observable<PaymentResponse> {
     return this.http.post<PaymentResponse>(`${this.apiUrl}/payments/neft`, request, {
-      headers: this.getIdempotentHeaders()
+      headers: this.getAuthHeaders().set('X-Idempotency-Key', idempotencyKey)
     });
   }
 
   // ── Wallet ──────────────────────────────────────────────
 
-  topupWallet(amount: number): Observable<PaymentResponse> {
+  topupWallet(amount: number, idempotencyKey: string): Observable<PaymentResponse> {
     return this.http.post<PaymentResponse>(`${this.apiUrl}/payments/wallet/topup`,
       { amount } as WalletTopupRequest,
-      { headers: this.getIdempotentHeaders() }
+      { headers: this.getAuthHeaders().set('X-Idempotency-Key', idempotencyKey) }
     );
   }
 
-  walletPay(request: WalletPayRequest): Observable<PaymentResponse> {
+  walletPay(request: WalletPayRequest, idempotencyKey: string): Observable<PaymentResponse> {
     return this.http.post<PaymentResponse>(`${this.apiUrl}/payments/wallet/pay`, request, {
-      headers: this.getIdempotentHeaders()
+      headers: this.getAuthHeaders().set('X-Idempotency-Key', idempotencyKey)
     });
+  }
+
+  // ── Razorpay ────────────────────────────────────────────
+
+  createRazorpayOrder(amount: number): Observable<RazorpayOrderResponse> {
+    return this.http.post<RazorpayOrderResponse>(`${this.apiUrl}/payments/razorpay/create-order`,
+      { amount },
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  verifyRazorpayPayment(data: RazorpayVerifyRequest): Observable<PaymentResponse> {
+    return this.http.post<PaymentResponse>(`${this.apiUrl}/payments/razorpay/verify`, data, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  reportRazorpayFailure(orderId: string, reason: string): Observable<PaymentResponse> {
+    return this.http.post<PaymentResponse>(`${this.apiUrl}/payments/razorpay/failure`,
+      { orderId, reason },
+      { headers: this.getAuthHeaders() }
+    );
   }
 
   // ── History ─────────────────────────────────────────────
 
-  getPaymentHistory(): Observable<PaymentResponse[]> {
-    return this.http.get<PaymentResponse[]>(`${this.apiUrl}/payments/history`, {
+  getPaymentHistory(page: number = 0, size: number = 10): Observable<PaginatedPaymentResponse> {
+    return this.http.get<PaginatedPaymentResponse>(`${this.apiUrl}/payments/history?page=${page}&size=${size}`, {
       headers: this.getAuthHeaders()
     });
   }

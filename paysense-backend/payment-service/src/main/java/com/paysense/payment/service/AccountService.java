@@ -36,21 +36,37 @@ public class AccountService {
      * Counter for generating unique account numbers.
      * In production, this would use a DB sequence.
      */
-    private static final AtomicLong ACCOUNT_SEQ = new AtomicLong(1000);
+    private static final AtomicLong ACCOUNT_SEQ = new AtomicLong(System.currentTimeMillis() / 1000);
 
     @jakarta.annotation.PostConstruct
     public void seedInitialMoney() {
-        log.info("Seeding test money to all existing accounts...");
+        log.info("Seeding test money and ensuring wallets/VPAs exist for all accounts...");
         accountRepository.findAll().forEach(acc -> {
-            if (acc.getBalance().compareTo(new BigDecimal("10000")) < 0) {
-                acc.setBalance(new BigDecimal("10000.00"));
-                accountRepository.save(acc);
+            
+            // Ensure wallet exists
+            if (walletRepository.findByUserId(acc.getUserId()).isEmpty()) {
+                Wallet wallet = Wallet.builder()
+                        .userId(acc.getUserId())
+                        .balance(BigDecimal.ZERO)
+                        .dailyLimit(new BigDecimal("10000.00"))
+                        .todaySpent(BigDecimal.ZERO)
+                        .status("ACTIVE")
+                        .build();
+                walletRepository.save(wallet);
+                log.info("Created missing wallet for user: {}", acc.getUserId());
             }
-        });
-        walletRepository.findAll().forEach(w -> {
-            if (w.getBalance().compareTo(new BigDecimal("5000")) < 0) {
-                w.setBalance(new BigDecimal("5000.00"));
-                walletRepository.save(w);
+
+            // Ensure VPA exists
+            if (vpaRegistryRepository.findByAccountIdAndIsActiveTrue(acc.getId()).isEmpty()) {
+                String vpa = "user" + acc.getUserId().toString().substring(0, 8) + "@paysense";
+                VpaRegistry vpaEntry = VpaRegistry.builder()
+                        .vpa(vpa)
+                        .account(acc)
+                        .isPrimary(true)
+                        .isActive(true)
+                        .build();
+                vpaRegistryRepository.save(vpaEntry);
+                log.info("Created missing VPA: {} for account: {}", vpa, acc.getAccountNumber());
             }
         });
     }
@@ -71,7 +87,7 @@ public class AccountService {
                 .userId(request.getUserId())
                 .accountNumber(accountNumber)
                 .ifscCode("PAYS0000001")
-                .balance(new BigDecimal("10000.00"))
+                .balance(BigDecimal.ZERO)
                 .accountType("SAVINGS")
                 .status("ACTIVE")
                 .build();
@@ -81,7 +97,7 @@ public class AccountService {
         // 2. Create Wallet
         Wallet wallet = Wallet.builder()
                 .userId(request.getUserId())
-                .balance(new BigDecimal("5000.00"))
+                .balance(BigDecimal.ZERO)
                 .dailyLimit(new BigDecimal("10000.00"))
                 .todaySpent(BigDecimal.ZERO)
                 .status("ACTIVE")

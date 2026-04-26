@@ -92,9 +92,12 @@ public class PaymentController {
      * Get payment history for a user.
      */
     @GetMapping("/history")
-    public ResponseEntity<List<PaymentResponse>> getPaymentHistory(
-            @RequestHeader("X-User-Id") UUID userId) {
-        return ResponseEntity.ok(paymentService.getPaymentHistory(userId));
+    public ResponseEntity<org.springframework.data.domain.Page<PaymentResponse>> getPaymentHistory(
+            @RequestHeader("X-User-Id") UUID userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size);
+        return ResponseEntity.ok(paymentService.getPaymentHistory(userId, pageable));
     }
 
     /**

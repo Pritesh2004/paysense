@@ -22,10 +22,11 @@ public interface PaymentRequestRepository extends JpaRepository<PaymentRequest, 
             "OR (p.status = 'SUCCESS' AND (p.receiverAccountNo = :accountNumber " +
             "  OR (COALESCE(:vpas, NULL) IS NOT NULL AND p.receiverVpa IN :vpas))) " +
             "ORDER BY p.initiatedAt DESC")
-    List<PaymentRequest> findPaymentHistory(
+    org.springframework.data.domain.Page<PaymentRequest> findPaymentHistory(
             @org.springframework.data.repository.query.Param("accountId") UUID accountId,
             @org.springframework.data.repository.query.Param("accountNumber") String accountNumber,
-            @org.springframework.data.repository.query.Param("vpas") List<String> vpas
+            @org.springframework.data.repository.query.Param("vpas") List<String> vpas,
+            org.springframework.data.domain.Pageable pageable
     );
 
     /**
@@ -37,4 +38,6 @@ public interface PaymentRequestRepository extends JpaRepository<PaymentRequest, 
      * Find recent payments by sender for fraud frequency check.
      */
     List<PaymentRequest> findBySenderAccountIdAndStatusOrderByInitiatedAtDesc(UUID senderAccountId, String status);
+
+    Optional<PaymentRequest> findByRazorpayOrderId(String razorpayOrderId);
 }

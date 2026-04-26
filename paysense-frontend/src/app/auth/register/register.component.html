@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-gray-50 flex">
   <!-- Right Side: Splash & Branding (Flipped for variety) -->
   <div
-    class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-purple-800 to-indigo-900 flex-col justify-between p-12 order-2">
+    class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-blue-600 to-cyan-500 flex-col justify-between p-12 order-2">
     <!-- Abstract Design Elements -->
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
       <svg class="absolute -top-24 -right-24 w-96 h-96 text-white animate-pulse" fill="currentColor"
@@ -30,8 +30,8 @@
           viewBox="0 0 500 400" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="regCardGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#34d399" />
-              <stop offset="100%" stop-color="#059669" />
+              <stop offset="0%" stop-color="#3b82f6" />
+              <stop offset="100%" stop-color="#06b6d4" />
             </linearGradient>
             <linearGradient id="regChartGrad" x1="0" y1="1" x2="0" y2="0">
               <stop offset="0%" stop-color="#818cf8" stop-opacity="0.2" />
@@ -40,7 +40,7 @@
           </defs>
 
           <!-- Background floating elements -->
-          <circle cx="100" cy="100" r="30" fill="#a78bfa" fill-opacity="0.2" class="animate-pulse" />
+          <circle cx="100" cy="100" r="30" fill="#93c5fd" fill-opacity="0.2" class="animate-pulse" />
           <circle cx="400" cy="300" r="50" fill="#34d399" fill-opacity="0.2" class="animate-bounce"
             style="animation-duration: 4s;" />
           <rect x="50" y="250" width="40" height="40" rx="10" transform="rotate(25 50 250)" fill="#60a5fa"
@@ -50,20 +50,20 @@
           <g transform="translate(100, 120)">
             <rect width="300" height="180" rx="20" fill="url(#regCardGrad)" stroke="#a7f3d0" stroke-width="2"
               stroke-opacity="0.5" />
-            <path d="M 0 50 L 300 50 L 300 90 L 0 90 Z" fill="#064e3b" fill-opacity="0.6" />
+            <path d="M 0 50 L 300 50 L 300 90 L 0 90 Z" fill="#1e3a8a" fill-opacity="0.6" />
             <!-- Chip -->
             <rect x="30" y="110" width="45" height="35" rx="5" fill="#fbbf24" />
             <!-- NFC -->
             <path d="M 90 120 A 15 15 0 0 1 90 140 M 100 115 A 25 25 0 0 1 100 145 M 110 110 A 35 35 0 0 1 110 150"
               stroke="white" stroke-width="3" stroke-linecap="round" fill="none" stroke-opacity="0.8" />
             <!-- Numbers -->
-            <text x="30" y="165" fill="white" font-family="monospace" font-size="18" letter-spacing="2" font-weight="600"
-              opacity="0.9">NEW ACC •••• ••••</text>
+            <text x="30" y="165" fill="white" font-family="monospace" font-size="18" letter-spacing="2"
+              font-weight="600" opacity="0.9">NEW ACC •••• ••••</text>
           </g>
 
           <!-- Floating Approval Shield -->
           <g transform="translate(320, 60)">
-            <path d="M 50 0 L 100 20 L 100 60 C 100 90 75 115 50 130 C 25 115 0 90 0 60 L 0 20 Z" fill="#4f46e5"
+            <path d="M 50 0 L 100 20 L 100 60 C 100 90 75 115 50 130 C 25 115 0 90 0 60 L 0 20 Z" fill="#2563eb"
               stroke="white" stroke-width="4" />
             <!-- Checkmark for Registration -->
             <path d="M 30 65 L 45 80 L 75 45" fill="none" stroke="white" stroke-width="8" stroke-linecap="round"
@@ -73,11 +73,13 @@
           <!-- Floating User Profile Card -->
           <g transform="translate(40, 60)">
             <rect width="140" height="110" rx="15" fill="white" fill-opacity="0.95" stroke="#e0e7ff" stroke-width="2" />
-            <text x="70" y="25" text-anchor="middle" fill="#4f46e5" font-family="sans-serif" font-weight="bold" font-size="12">Instant Setup</text>
+            <text x="70" y="25" text-anchor="middle" fill="#2563eb" font-family="sans-serif" font-weight="bold"
+              font-size="12">Instant Setup</text>
             <circle cx="70" cy="55" r="15" fill="#e0e7ff" />
-            <path d="M 70 50 A 5 5 0 1 0 70 60 A 5 5 0 1 0 70 50 Z" fill="#4f46e5" />
-            <path d="M 50 80 Q 70 65 90 80 L 85 85 L 55 85 Z" fill="#4f46e5" />
-            <text x="70" y="98" text-anchor="middle" fill="#10b981" font-family="sans-serif" font-weight="bold" font-size="10">Verified</text>
+            <path d="M 70 50 A 5 5 0 1 0 70 60 A 5 5 0 1 0 70 50 Z" fill="#2563eb" />
+            <path d="M 50 80 Q 70 65 90 80 L 85 85 L 55 85 Z" fill="#2563eb" />
+            <text x="70" y="98" text-anchor="middle" fill="#10b981" font-family="sans-serif" font-weight="bold"
+              font-size="10">Verified</text>
           </g>
         </svg>
       </div>
@@ -110,8 +112,8 @@
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-5">
           <div class="space-y-1">
             <label for="fullName" class="block text-sm font-semibold text-gray-700">Full Name</label>
-            <input id="fullName" formControlName="fullName" type="text" placeholder="John Doe" required
-              class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 outline-none text-gray-800 placeholder-gray-400"
+            <input id="fullName" formControlName="fullName" type="text" placeholder="Donald Trump" required
+              class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none text-gray-800 placeholder-gray-400"
               [ngClass]="{ 'border-red-300 bg-red-50 focus:ring-red-500 focus:border-red-500': submitted && f['fullName'].errors }">
             <div *ngIf="submitted && f['fullName'].errors" class="text-xs text-red-500 mt-1 pl-1">
               <span *ngIf="f['fullName'].errors['required']">Full Name is required</span>
@@ -121,8 +123,8 @@
           <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div class="space-y-1">
               <label for="email" class="block text-sm font-semibold text-gray-700">Email Address</label>
-              <input id="email" formControlName="email" type="email" placeholder="you@company.com" required
-                class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 outline-none text-gray-800 placeholder-gray-400"
+              <input id="email" formControlName="email" type="email" placeholder="donald@whitehouse.com" required
+                class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none text-gray-800 placeholder-gray-400"
                 [ngClass]="{ 'border-red-300 bg-red-50 focus:ring-red-500 focus:border-red-500': submitted && f['email'].errors }">
               <div *ngIf="submitted && f['email'].errors" class="text-xs text-red-500 mt-1 pl-1">
                 <span *ngIf="f['email'].errors['required']">Email is required</span>
@@ -132,12 +134,12 @@
 
             <div class="space-y-1">
               <label for="phone" class="block text-sm font-semibold text-gray-700">Phone Number</label>
-              <input id="phone" formControlName="phone" type="text" placeholder="+1 (555) 000-0000" required
-                class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 outline-none text-gray-800 placeholder-gray-400"
+              <input id="phone" formControlName="phone" type="text" placeholder="9876543210" required
+                class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none text-gray-800 placeholder-gray-400"
                 [ngClass]="{ 'border-red-300 bg-red-50 focus:ring-red-500 focus:border-red-500': submitted && f['phone'].errors }">
               <div *ngIf="submitted && f['phone'].errors" class="text-xs text-red-500 mt-1 pl-1">
                 <span *ngIf="f['phone'].errors['required']">Phone number is required</span>
-                <span *ngIf="f['phone'].errors['pattern']">Must be 10-15 digits</span>
+                <span *ngIf="f['phone'].errors['pattern']">Must be exactly 10 digits</span>
               </div>
             </div>
           </div>
@@ -146,7 +148,7 @@
             <div class="space-y-1">
               <label for="password" class="block text-sm font-semibold text-gray-700">Password</label>
               <input id="password" formControlName="password" type="password" placeholder="••••••••" required
-                class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 outline-none text-gray-800 placeholder-gray-400"
+                class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none text-gray-800 placeholder-gray-400"
                 [ngClass]="{ 'border-red-300 bg-red-50 focus:ring-red-500 focus:border-red-500': submitted && f['password'].errors }">
               <div *ngIf="submitted && f['password'].errors" class="text-xs text-red-500 mt-1 pl-1">
                 <span *ngIf="f['password'].errors['required']">Password is required</span>
@@ -158,7 +160,7 @@
               <label for="confirmPassword" class="block text-sm font-semibold text-gray-700">Confirm Password</label>
               <input id="confirmPassword" formControlName="confirmPassword" type="password" placeholder="••••••••"
                 required
-                class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 outline-none text-gray-800 placeholder-gray-400"
+                class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none text-gray-800 placeholder-gray-400"
                 [ngClass]="{ 'border-red-300 bg-red-50 focus:ring-red-500 focus:border-red-500': submitted && (f['confirmPassword'].errors || registerForm.errors?.['mismatch']) }">
               <div *ngIf="submitted && (f['confirmPassword'].errors || registerForm.errors?.['mismatch'])"
                 class="text-xs text-red-500 mt-1 pl-1">
@@ -170,7 +172,7 @@
 
           <div class="pt-4">
             <button type="submit" [disabled]="loading"
-              class="w-full flex justify-center items-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none">
+              class="w-full flex justify-center items-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transform transition-all hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none">
               <svg *ngIf="loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
                 fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -188,7 +190,7 @@
           <p class="text-sm text-gray-600 font-medium tracking-wide border-t border-gray-100 pt-6">
             Already have an account?
             <a routerLink="/login"
-              class="font-bold text-indigo-600 hover:text-indigo-500 ml-1 hover:underline underline-offset-2">Sign in
+              class="font-bold text-blue-600 hover:text-blue-500 ml-1 hover:underline underline-offset-2">Sign in
               here</a>
           </p>
         </div>

@@ -27,4 +27,6 @@ public class PaymentResponse {
     private LocalDateTime settledAt;
     private String message;
     private UUID senderAccountId;
+    private String senderVpa;
+    private String receiverVpa;
 }

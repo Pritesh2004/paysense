@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10,15}$')]],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
     }, { validators: passwordMatchValidator });
@@ -63,7 +63,11 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(['/login'], { queryParams: { registered: true } });
       },
       error: (err) => {
-        this.error = err.message || 'Registration failed. Please try again.';
+        if (err.error?.fieldErrors) {
+          this.error = Object.values(err.error.fieldErrors).join(', ');
+        } else {
+          this.error = err.error?.message || 'Registration failed. Please try again.';
+        }
         this.loading = false;
       }
     });

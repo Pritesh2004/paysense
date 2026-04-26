@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 public class WalletPayRequestDto {
 
     @NotBlank(message = "Receiver VPA is required")
+    @Pattern(regexp = "^[\\w.-]+@[\\w.-]+$", message = "Invalid VPA format")
     private String receiverVpa;
 
     @NotNull(message = "Amount is required")

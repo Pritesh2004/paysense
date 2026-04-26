@@ -56,7 +56,11 @@ export class LoginComponent implements OnInit {
         this.router.navigate([this.returnUrl]);
       },
       error: (err) => {
-        this.error = err.message || 'Verification failed. Please check your credentials.';
+        if (err.error?.fieldErrors) {
+          this.error = Object.values(err.error.fieldErrors).join(', ');
+        } else {
+          this.error = err.error?.message || 'Verification failed. Please check your credentials.';
+        }
         this.loading = false;
       }
     });

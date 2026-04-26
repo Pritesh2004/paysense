@@ -56,6 +56,15 @@ public class PaymentRequest {
     @Column(length = 255)
     private String description;
 
+    @Column(name = "razorpay_order_id", length = 50)
+    private String razorpayOrderId;
+
+    @Column(name = "razorpay_payment_id", length = 50)
+    private String razorpayPaymentId;
+
+    @Column(name = "razorpay_signature", length = 255)
+    private String razorpaySignature;
+
     @Column(name = "initiated_at")
     @Builder.Default
     private LocalDateTime initiatedAt = LocalDateTime.now();

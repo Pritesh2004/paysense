@@ -173,6 +173,11 @@ public class WalletService {
     }
 
     private PaymentResponse mapToResponse(PaymentRequest pr, String message) {
+        String senderVpa = null;
+        if (pr.getSenderAccountId() != null) {
+            senderVpa = vpaRegistryRepository.findByAccountIdAndIsActiveTrue(pr.getSenderAccountId())
+                    .stream().findFirst().map(VpaRegistry::getVpa).orElse(null);
+        }
         return PaymentResponse.builder()
                 .paymentRequestId(pr.getId())
                 .idempotencyKey(pr.getIdempotencyKey())
@@ -185,6 +190,9 @@ public class WalletService {
                 .initiatedAt(pr.getInitiatedAt())
                 .settledAt(pr.getSettledAt())
                 .message(message)
+                .senderAccountId(pr.getSenderAccountId())
+                .senderVpa(senderVpa)
+                .receiverVpa(pr.getReceiverVpa())
                 .build();
     }
 

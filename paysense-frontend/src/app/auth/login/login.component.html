@@ -1,14 +1,14 @@
 <div class="min-h-screen bg-gray-50 flex">
   <!-- Left Side: Splash & Branding -->
   <div
-    class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-blue-700 to-emerald-500 flex-col justify-between p-12">
+    class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-blue-600 to-cyan-500 flex-col justify-between p-12">
     <!-- Abstract Design Elements -->
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
       <svg class="absolute -top-24 -left-24 w-96 h-96 text-white animate-pulse" fill="currentColor"
         viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <circle cx="50" cy="50" r="50" />
       </svg>
-      <svg class="absolute bottom-10 -right-20 w-[30rem] h-[30rem] text-emerald-300" fill="currentColor"
+      <svg class="absolute bottom-10 -right-20 w-[30rem] h-[30rem] text-cyan-300" fill="currentColor"
         viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <circle cx="50" cy="50" r="50" />
       </svg>
@@ -19,7 +19,7 @@
         <img src="assets/logo.png" alt="PaySense Logo" class="h-10 w-auto filter drop-shadow-lg" />
         PaySense
       </div>
-      <p class="mt-4 text-indigo-100 text-lg max-w-md">
+      <p class="mt-4 text-blue-100 text-lg max-w-md">
         The most secure, beautiful, and fastest way to manage your financial portfolio.
       </p>
     </div>
@@ -31,8 +31,8 @@
         viewBox="0 0 500 400" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="cardGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#8b5cf6" />
-            <stop offset="100%" stop-color="#4f46e5" />
+            <stop offset="0%" stop-color="#3b82f6" />
+            <stop offset="100%" stop-color="#06b6d4" />
           </linearGradient>
           <linearGradient id="chartGrad" x1="0" y1="1" x2="0" y2="0">
             <stop offset="0%" stop-color="#34d399" stop-opacity="0.2" />
@@ -41,8 +41,8 @@
         </defs>
 
         <!-- Background floating elements -->
-        <circle cx="100" cy="100" r="30" fill="#a78bfa" fill-opacity="0.2" class="animate-pulse" />
-        <circle cx="400" cy="300" r="50" fill="#818cf8" fill-opacity="0.2" class="animate-bounce"
+        <circle cx="100" cy="100" r="30" fill="#93c5fd" fill-opacity="0.2" class="animate-pulse" />
+        <circle cx="400" cy="300" r="50" fill="#60a5fa" fill-opacity="0.2" class="animate-bounce"
           style="animation-duration: 4s;" />
         <rect x="50" y="250" width="40" height="40" rx="10" transform="rotate(25 50 250)" fill="#60a5fa"
           fill-opacity="0.3" />
@@ -51,7 +51,7 @@
         <g transform="translate(100, 120)">
           <rect width="300" height="180" rx="20" fill="url(#cardGrad)" stroke="#c4b5fd" stroke-width="2"
             stroke-opacity="0.5" />
-          <path d="M 0 50 L 300 50 L 300 90 L 0 90 Z" fill="#312e81" fill-opacity="0.6" />
+          <path d="M 0 50 L 300 50 L 300 90 L 0 90 Z" fill="#1e3a8a" fill-opacity="0.6" />
           <!-- Chip -->
           <rect x="30" y="110" width="45" height="35" rx="5" fill="#fbbf24" />
           <!-- NFC -->
@@ -73,7 +73,7 @@
         <!-- Floating Chart / Analytics Card -->
         <g transform="translate(40, 60)">
           <rect width="140" height="110" rx="15" fill="white" fill-opacity="0.9" stroke="#e0e7ff" stroke-width="2" />
-          <text x="15" y="25" fill="#4f46e5" font-family="sans-serif" font-weight="bold" font-size="12">Daily
+          <text x="15" y="25" fill="#2563eb" font-family="sans-serif" font-weight="bold" font-size="12">Daily
             Growth</text>
           <text x="15" y="45" fill="#10b981" font-family="sans-serif" font-weight="bold" font-size="16">+24.5%</text>
           <path d="M 15 90 L 40 70 L 65 80 L 100 40 L 125 50" fill="none" stroke="#10b981" stroke-width="4"
@@ -83,7 +83,7 @@
       </svg>
     </div>
 
-    <div class="relative z-10 text-indigo-200 text-sm">
+    <div class="relative z-10 text-blue-200 text-sm">
       &copy; 2026 PaySense Inc. All rights reserved.
     </div>
   </div>
@@ -114,9 +114,9 @@
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
           <div class="space-y-1">
             <label for="email" class="block text-sm font-semibold text-gray-700">Email Address</label>
-            <input id="email" formControlName="email" type="email" autocomplete="email" placeholder="you@company.com"
-              required
-              class="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 outline-none text-gray-800 placeholder-gray-400"
+            <input id="email" formControlName="email" type="email" autocomplete="email"
+              placeholder="donald@whitehouse.com" required
+              class="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none text-gray-800 placeholder-gray-400"
               [ngClass]="{ 'border-red-300 bg-red-50 focus:ring-red-500 focus:border-red-500': submitted && f['email'].errors }">
             <div *ngIf="submitted && f['email'].errors" class="text-xs text-red-500 mt-1 pl-1">
               <span *ngIf="f['email'].errors['required']">Email is required</span>
@@ -128,7 +128,7 @@
             <label for="password" class="block text-sm font-semibold text-gray-700">Password</label>
             <input id="password" formControlName="password" type="password" autocomplete="current-password"
               placeholder="••••••••" required
-              class="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 outline-none text-gray-800 placeholder-gray-400"
+              class="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none text-gray-800 placeholder-gray-400"
               [ngClass]="{ 'border-red-300 bg-red-50 focus:ring-red-500 focus:border-red-500': submitted && f['password'].errors }">
             <div *ngIf="submitted && f['password'].errors" class="text-xs text-red-500 mt-1 pl-1">
               <span *ngIf="f['password'].errors['required']">Password is required</span>
@@ -138,18 +138,17 @@
           <div class="flex items-center justify-between pt-2">
             <div class="flex items-center">
               <input id="remember-me" name="remember-me" type="checkbox"
-                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded text-indigo-600">
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded text-blue-600">
               <label for="remember-me" class="ml-2 block text-sm text-gray-600 cursor-pointer">Remember me</label>
             </div>
             <div class="text-sm">
-              <a href="#"
-                class="font-medium text-indigo-600 hover:text-indigo-500 hover:underline transition-all">Forgot
+              <a href="#" class="font-medium text-blue-600 hover:text-blue-500 hover:underline transition-all">Forgot
                 password?</a>
             </div>
           </div>
 
           <button type="submit" [disabled]="loading"
-            class="w-full flex justify-center items-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-emerald-500 hover:from-blue-700 hover:to-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform transition-all hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none">
+            class="w-full flex justify-center items-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transform transition-all hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none">
             <svg *ngIf="loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
               fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -173,7 +172,7 @@
 
         <div class="mt-6 text-center">
           <a routerLink="/register"
-            class="w-full inline-flex justify-center py-3 px-4 border-2 border-indigo-100 rounded-xl text-sm font-bold text-indigo-700 bg-white hover:bg-indigo-50 hover:border-indigo-200 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            class="w-full inline-flex justify-center py-3 px-4 border-2 border-blue-100 rounded-xl text-sm font-bold text-blue-700 bg-white hover:bg-blue-50 hover:border-blue-200 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             Create an account
           </a>
         </div>

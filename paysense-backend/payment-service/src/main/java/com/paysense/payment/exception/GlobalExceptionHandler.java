@@ -60,6 +60,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
 
+    @ExceptionHandler(com.razorpay.RazorpayException.class)
+    public ResponseEntity<Map<String, Object>> handleRazorpayException(com.razorpay.RazorpayException ex) {
+        log.error("Razorpay API Exception", ex);
+        return buildErrorResponse(HttpStatus.BAD_GATEWAY, "Payment gateway error: " + ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGeneral(Exception ex) {
         log.error("Unexpected error in payment service", ex);

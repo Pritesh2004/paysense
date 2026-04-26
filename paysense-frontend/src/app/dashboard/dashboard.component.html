@@ -1,86 +1,138 @@
-<div class="h-screen bg-slate-50 font-sans flex text-slate-800 overflow-hidden">
+<!-- Glowing Mesh Background -->
+<div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+  <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-300/40 blur-[120px]"></div>
+  <div class="absolute bottom-[-20%] right-[-10%] w-[40%] h-[40%] rounded-full bg-cyan-200/40 blur-[100px]"></div>
+</div>
+
+<div class="h-screen bg-[#F4F7FE] font-sans flex text-slate-600 overflow-hidden relative z-10">
 
   <!-- Left Sidebar -->
-  <aside class="hidden md:flex flex-col w-64 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white shadow-xl z-20 shrink-0">
-    <div class="p-6 flex items-center gap-3 border-b border-slate-700/50">
-      <img src="assets/logo.png" alt="PaySense" class="h-8 w-8 rounded-xl shadow-lg" />
-      <h1 class="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">PaySense</h1>
+  <aside
+    class="hidden md:flex flex-col w-64 bg-white/70 backdrop-blur-3xl border-r border-blue-100/60 shadow-[20px_0_40px_-10px_rgba(59,130,246,0.05)] z-20 shrink-0">
+    <div class="p-6 flex items-center gap-3 border-b border-blue-100/60">
+      <div
+        class="h-10 w-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-500 p-[1px] shadow-lg shadow-blue-500/20">
+        <div class="h-full w-full bg-white rounded-2xl flex items-center justify-center">
+          <img src="assets/logo.png" alt="PaySense" class="h-6 w-6" />
+        </div>
+      </div>
+      <h1
+        class="text-2xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500">
+        PaySense</h1>
     </div>
 
-    <nav class="flex-1 mt-4 px-3 space-y-1">
-      <button (click)="activeView = 'dashboard'"
-        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium text-sm"
-        [ngClass]="activeView === 'dashboard' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' : 'text-slate-400 hover:bg-slate-800 hover:text-white'">
-        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+    <nav class="flex-1 mt-6 px-4 space-y-1.5">
+      <button (click)="switchView('dashboard')"
+        class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all font-semibold text-sm group"
+        [ngClass]="activeView === 'dashboard' ? 'bg-blue-50 text-blue-700 border border-blue-200 shadow-[0_0_15px_rgba(59,130,246,0.1)]' : 'text-slate-500 hover:bg-blue-50/50 hover:text-slate-800'">
+        <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
         Dashboard
       </button>
 
-      <button (click)="activeView = 'history'"
-        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium text-sm"
-        [ngClass]="activeView === 'history' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' : 'text-slate-400 hover:bg-slate-800 hover:text-white'">
-        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+      <button (click)="switchView('history')"
+        class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all font-semibold text-sm group"
+        [ngClass]="activeView === 'history' ? 'bg-blue-50 text-blue-700 border border-blue-200 shadow-[0_0_15px_rgba(59,130,246,0.1)]' : 'text-slate-500 hover:bg-blue-50/50 hover:text-slate-800'">
+        <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+        </svg>
         Transactions
       </button>
 
-      <button (click)="activeView = 'notifications'"
-        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium text-sm relative"
-        [ngClass]="activeView === 'notifications' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' : 'text-slate-400 hover:bg-slate-800 hover:text-white'">
-        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+      <button (click)="switchView('notifications')"
+        class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all font-semibold text-sm relative group"
+        [ngClass]="activeView === 'notifications' ? 'bg-blue-50 text-blue-700 border border-blue-200 shadow-[0_0_15px_rgba(59,130,246,0.1)]' : 'text-slate-500 hover:bg-blue-50/50 hover:text-slate-800'">
+        <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
         Notifications
-        <span *ngIf="unreadCount > 0" class="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">{{ unreadCount }}</span>
+        <span *ngIf="unreadCount > 0"
+          class="ml-auto bg-rose-100 text-rose-600 border border-rose-200 text-[10px] font-bold px-2 py-0.5 rounded-full">{{
+          unreadCount }}</span>
       </button>
     </nav>
-
-
   </aside>
 
   <!-- Main Content -->
-  <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+  <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative">
 
     <!-- Header -->
-    <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 shrink-0 z-10">
-      <h2 class="text-lg font-semibold text-slate-800">
+    <header
+      class="h-20 bg-white/60 backdrop-blur-3xl border-b border-blue-100/60 flex items-center justify-between px-8 shrink-0 z-30 sticky top-0">
+      <h2 class="text-xl font-bold text-blue-950 tracking-tight">
         <span *ngIf="activeView === 'dashboard'">Overview</span>
         <span *ngIf="activeView === 'history'">Transaction History</span>
         <span *ngIf="activeView === 'notifications'">Notifications</span>
       </h2>
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-4">
         <!-- Notification Bell -->
-        <button (click)="activeView = 'notifications'" class="relative p-2 text-slate-400 hover:text-indigo-600 transition-colors">
-          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-          <span *ngIf="unreadCount > 0" class="absolute top-1 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+        <button (click)="switchView('notifications')"
+          class="relative p-2 text-slate-400 hover:text-blue-600 transition-colors bg-white rounded-full hover:bg-blue-50 shadow-sm border border-blue-50">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+          <span *ngIf="unreadCount > 0"
+            class="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full shadow-[0_0_8px_rgba(244,63,94,0.4)]"></span>
         </button>
         <!-- User Avatar & Dropdown -->
         <div class="relative z-50">
-          <button (click)="toggleProfileDropdown()" class="flex items-center gap-2 hover:bg-slate-50 p-1.5 rounded-xl transition-colors outline-none focus:ring-2 focus:ring-slate-100 relative z-50">
-            <div class="h-9 w-9 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm shadow">
+          <button (click)="toggleProfileDropdown()"
+            class="flex items-center gap-3 hover:bg-white/60 p-1.5 pr-3 rounded-full transition-colors outline-none focus:ring-2 focus:ring-blue-500/30 border border-transparent hover:border-blue-100 relative z-50 group">
+            <div
+              class="h-9 w-9 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center text-white font-bold text-sm shadow-[0_4px_10px_rgba(59,130,246,0.3)]">
               {{ getUserInitial() }}
             </div>
-            <span class="text-sm font-medium text-slate-700 hidden lg:block">{{ getUserName() }}</span>
-            <svg class="w-4 h-4 text-slate-400 hidden lg:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+            <span
+              class="text-sm font-semibold text-slate-700 hidden lg:block group-hover:text-blue-900 transition-colors">{{
+              getUserName() }}</span>
+            <svg class="w-4 h-4 text-slate-400 hidden lg:block group-hover:text-slate-600 transition-colors" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
           </button>
 
-          <!-- Dropdown Menu -->
-          <div *ngIf="showProfileDropdown" class="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 z-50 overflow-hidden">
-            <div class="p-4 border-b border-slate-100 bg-slate-50/50">
-              <p class="font-bold text-slate-800 truncate">{{ getUserName() }}</p>
-              <p class="text-xs text-slate-500 truncate mt-0.5">{{ currentUser?.email }}</p>
-              <p class="text-xs text-slate-500 mt-0.5">{{ currentUser?.phone }}</p>
-              <div class="mt-2 inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-indigo-100 text-indigo-700">
+          <div *ngIf="showProfileDropdown"
+            class="absolute right-0 mt-3 w-64 bg-white/95 backdrop-blur-2xl rounded-2xl shadow-xl border border-blue-100 z-50 overflow-hidden transform origin-top-right transition-all">
+            <div class="p-5 border-b border-slate-100 bg-slate-50/50">
+              <p class="font-bold text-slate-900 truncate text-base tracking-tight">{{ getUserName() }}</p>
+              <p class="text-[13px] text-slate-500 truncate mt-1">{{ currentUser?.email }}</p>
+              <p class="text-[13px] text-slate-500 mt-0.5">{{ currentUser?.phone }}</p>
+              <div *ngIf="accountDetails?.vpas?.length"
+                class="mt-2 bg-blue-50 border border-blue-100 rounded-lg p-2 text-[12px] font-mono text-blue-700 break-all">
+                <span class="font-bold text-slate-500 text-[10px] uppercase tracking-widest block mb-0.5">Your
+                  VPA</span>
+                {{ accountDetails?.vpas?.[0] }}
+              </div>
+              <div
+                class="mt-3 inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-emerald-50 text-emerald-600 border border-emerald-200">
                 {{ currentUser?.role }}
               </div>
             </div>
             <div class="p-2">
-              <button (click)="logout()" class="w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-red-600 hover:bg-red-50 font-medium transition-colors text-sm text-left">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+              <button (click)="logout()"
+                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-rose-600 hover:bg-rose-50 hover:text-rose-700 font-semibold transition-colors text-sm text-left group">
+                <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
                 Sign Out
               </button>
             </div>
           </div>
-          
-          <!-- Dropdown Backdrop -->
-          <div *ngIf="showProfileDropdown" (click)="showProfileDropdown = false" class="fixed inset-0 bg-transparent z-40"></div>
         </div>
+
+        <!-- Dropdown Backdrop -->
+        <div *ngIf="showProfileDropdown" (click)="showProfileDropdown = false"
+          class="fixed inset-0 bg-transparent z-40"></div>
       </div>
     </header>
 
@@ -92,250 +144,233 @@
 
         <!-- Welcome -->
         <div>
-          <h3 class="text-2xl font-bold text-slate-800">Welcome back, {{ getUserName() }}! 👋</h3>
-          <p class="text-slate-500 mt-1 text-sm">Here's your financial overview.</p>
+          <h3 class="text-3xl font-black text-blue-950 tracking-tight">Welcome back, {{ getUserName() }}! 👋</h3>
+          <p class="text-slate-500 mt-1.5 text-base">Here's your financial overview.</p>
         </div>
 
         <!-- Balance Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="flex flex-col gap-6">
 
-          <!-- Account Card -->
-          <div class="bg-gradient-to-br from-indigo-600 to-blue-700 rounded-2xl p-7 text-white shadow-xl shadow-indigo-500/20 relative overflow-hidden">
-            <div class="absolute -top-4 -right-4 opacity-10">
-              <svg class="w-40 h-40" fill="currentColor" viewBox="0 0 24 24"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+          <!-- Glowing Premium Wallet Card (Remains vibrant for contrast) -->
+          <div
+            class="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-3xl p-8 text-white shadow-[0_20px_40px_-15px_rgba(37,99,235,0.4)] flex flex-col relative overflow-hidden border border-blue-500/30">
+            <!-- Glow & Shapes -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-[50px] rounded-full mix-blend-overlay"></div>
+            <div class="absolute -bottom-8 -left-8 w-40 h-40 bg-cyan-400/20 blur-[40px] rounded-full mix-blend-overlay">
             </div>
-            <div class="relative z-10">
-              <p class="text-indigo-200 text-xs font-semibold uppercase tracking-widest">Primary Account</p>
-              <div *ngIf="isLoadingAccount" class="h-12 w-36 bg-white/20 rounded-lg animate-pulse mt-2"></div>
-              <h2 *ngIf="!isLoadingAccount" class="text-4xl font-extrabold mt-2 tracking-tight">₹ {{ accountDetails?.balance | number:'1.2-2' }}</h2>
-              <div class="mt-6 flex justify-between items-end text-sm">
-                <div>
-                  <p class="text-indigo-200 text-xs">Account Number</p>
-                  <p class="font-mono font-semibold tracking-wider mt-0.5">{{ accountDetails?.accountNumber || '•••• •••• ••••' }}</p>
-                </div>
-                <div class="text-right">
-                  <p class="text-indigo-200 text-xs">Primary VPA</p>
-                  <p class="font-medium mt-0.5">{{ accountDetails?.vpas?.[0] || 'Not setup' }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <!-- Wallet Card -->
-          <div class="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm flex flex-col">
-            <div class="flex items-center justify-between mb-2">
-              <p class="text-slate-500 text-xs font-semibold uppercase tracking-widest">Wallet Balance</p>
-              <span class="px-2.5 py-0.5 text-xs font-bold rounded-full"
-                [ngClass]="(accountDetails?.wallet?.status || 'NOT SETUP') === 'ACTIVE' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'">
+            <div class="absolute -top-4 -right-4 opacity-[0.07]">
+              <svg class="w-48 h-48" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+              </svg>
+            </div>
+
+            <div class="flex items-center justify-between mb-4 relative z-10">
+              <p class="text-blue-200 text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                <span
+                  class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
+                Wallet Balance
+              </p>
+              <span class="px-3 py-1 text-[10px] uppercase font-black tracking-widest rounded-full border"
+                [ngClass]="(accountDetails?.wallet?.status || 'NOT SETUP') === 'ACTIVE' ? 'bg-emerald-500/20 text-emerald-100 border-emerald-400/40' : 'bg-rose-500/20 text-rose-100 border-rose-400/40'">
                 {{ accountDetails?.wallet?.status || 'NOT SETUP' }}
               </span>
             </div>
-            <div *ngIf="isLoadingAccount" class="h-10 w-28 bg-slate-100 rounded animate-pulse mt-1"></div>
-            <h2 *ngIf="!isLoadingAccount" class="text-4xl font-extrabold text-slate-800 tracking-tight mt-1">₹ {{ accountDetails?.wallet?.balance | number:'1.2-2' }}</h2>
-            <div class="mt-4 grid grid-cols-2 gap-3 text-xs text-slate-600">
-              <div class="bg-slate-50 rounded-lg p-2.5">
-                <p class="text-slate-400">Daily Limit</p>
-                <p class="font-bold text-slate-700 mt-0.5">₹ {{ accountDetails?.wallet?.dailyLimit | number:'1.0-0' }}</p>
+
+            <div *ngIf="isLoadingAccount" class="h-10 w-32 bg-white/10 rounded-lg animate-pulse mt-3 relative z-10">
+            </div>
+            <div *ngIf="!isLoadingAccount" class="flex flex-col relative z-10">
+              <span class="text-blue-200 text-sm font-semibold mb-1">Available Funds</span>
+              <h2 class="text-5xl font-black tracking-tighter drop-shadow-md text-white">₹ {{
+                accountDetails?.wallet?.balance | number:'1.2-2' }}</h2>
+            </div>
+
+            <div class="mt-8 grid grid-cols-2 gap-4 text-xs relative z-10 w-full sm:w-[60%]">
+              <div
+                class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 transition-transform hover:scale-[1.02] shadow-[0_4px_20px_-5px_rgba(0,0,0,0.1)]">
+                <p class="text-blue-100 font-semibold mb-1">Daily Limit</p>
+                <p class="font-black text-white text-lg tracking-tight">₹ {{ accountDetails?.wallet?.dailyLimit |
+                  number:'1.0-0' }}</p>
               </div>
-              <div class="bg-slate-50 rounded-lg p-2.5">
-                <p class="text-slate-400">Remaining Today</p>
-                <p class="font-bold text-slate-700 mt-0.5">₹ {{ accountDetails?.wallet?.remainingDailyLimit | number:'1.0-0' }}</p>
+              <div
+                class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 transition-transform hover:scale-[1.02] shadow-[0_4px_20px_-5px_rgba(0,0,0,0.1)]">
+                <p class="text-blue-100 font-semibold mb-1">Remaining Today</p>
+                <p class="font-black text-white text-lg tracking-tight">₹ {{ accountDetails?.wallet?.remainingDailyLimit
+                  | number:'1.0-0' }}</p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Send Money Panel with Tabs -->
-        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
-          <div class="border-b border-slate-200 px-6">
-            <div class="flex gap-1 -mb-px">
-              <button (click)="switchTab('upi')"
-                class="px-5 py-4 text-sm font-semibold border-b-2 transition-colors"
-                [ngClass]="activeTab === 'upi' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-slate-500 hover:text-slate-700'">
-                📱 UPI
-              </button>
-              <button (click)="switchTab('neft')"
-                class="px-5 py-4 text-sm font-semibold border-b-2 transition-colors"
-                [ngClass]="activeTab === 'neft' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-slate-500 hover:text-slate-700'">
-                🏦 NEFT
-              </button>
-              <button (click)="switchTab('wallet')"
-                class="px-5 py-4 text-sm font-semibold border-b-2 transition-colors"
-                [ngClass]="activeTab === 'wallet' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-slate-500 hover:text-slate-700'">
-                👛 Wallet
-              </button>
+        <!-- Wallet Actions Panels -->
+        <h3 class="text-xl font-bold text-blue-950 tracking-tight mt-8 mb-4">Quick Actions</h3>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          <!-- Top-Up -->
+          <div
+            class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 border border-blue-100 relative overflow-hidden group hover:border-blue-300 transition-colors shadow-lg shadow-blue-900/5">
+            <div
+              class="absolute right-0 bottom-0 opacity-[0.02] text-blue-700 group-hover:opacity-[0.05] transition-opacity">
+              <svg class="w-40 h-40 translate-x-8 translate-y-8" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M21 4H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H3V6h18v12zm-3-6H6v2h12v-2zM6 10h12V8H6v2z" />
+              </svg>
             </div>
-          </div>
-
-          <div class="p-6">
-
-            <!-- UPI Tab -->
-            <div *ngIf="activeTab === 'upi'">
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">Receiver UPI ID</label>
-                  <input type="text" [(ngModel)]="upiModel.receiverVpa"
-                    class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
-                    placeholder="user@paysense">
+            <div class="relative z-10 w-full flex flex-col h-full gap-4">
+              <h4 class="text-lg font-bold text-slate-800 flex items-center gap-3">
+                <div class="p-2 bg-blue-50 text-blue-600 rounded-xl border border-blue-100">
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+                  </svg>
                 </div>
-                <div>
-                  <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">Amount (₹)</label>
-                  <input type="number" [(ngModel)]="upiModel.amount"
-                    class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
-                    placeholder="0.00">
-                </div>
-                <div>
-                  <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">Note (Optional)</label>
-                  <input type="text" [(ngModel)]="upiModel.description"
-                    class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
-                    placeholder="For dinner, etc.">
-                </div>
-              </div>
-              <div *ngIf="upiMessage" class="mt-3 px-4 py-2.5 rounded-lg text-sm"
-                [ngClass]="upiError ? 'bg-red-50 text-red-700 border-l-4 border-red-500' : 'bg-green-50 text-green-700 border-l-4 border-green-500'">
-                {{ upiMessage }}
-              </div>
-              <button (click)="sendUpiPayment()" [disabled]="upiLoading || !upiModel.receiverVpa || upiModel.amount <= 0"
-                class="mt-4 px-8 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold text-sm shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
-                <svg *ngIf="upiLoading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
-                {{ upiLoading ? 'Processing...' : 'Send via UPI' }}
-              </button>
-            </div>
-
-            <!-- NEFT Tab -->
-            <div *ngIf="activeTab === 'neft'">
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div>
-                  <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">Account Number</label>
-                  <input type="text" [(ngModel)]="neftModel.receiverAccountNo"
-                    class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
-                    placeholder="PS0000001234">
-                </div>
-                <div>
-                  <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">IFSC Code</label>
-                  <input type="text" [(ngModel)]="neftModel.receiverIfsc"
-                    class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
-                    placeholder="PAYS0000001">
-                </div>
-                <div>
-                  <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">Amount (₹)</label>
-                  <input type="number" [(ngModel)]="neftModel.amount"
-                    class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
-                    placeholder="0.00">
-                </div>
-                <div>
-                  <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wide">Description</label>
-                  <input type="text" [(ngModel)]="neftModel.description"
-                    class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
-                    placeholder="Rent payment">
-                </div>
-              </div>
-              <p class="mt-2 text-xs text-slate-400">⏱ NEFT payments settle within 30 minutes.</p>
-              <div *ngIf="neftMessage" class="mt-3 px-4 py-2.5 rounded-lg text-sm"
-                [ngClass]="neftError ? 'bg-red-50 text-red-700 border-l-4 border-red-500' : 'bg-green-50 text-green-700 border-l-4 border-green-500'">
-                {{ neftMessage }}
-              </div>
-              <button (click)="sendNeftPayment()" [disabled]="neftLoading || !neftModel.receiverAccountNo || neftModel.amount <= 0"
-                class="mt-4 px-8 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold text-sm shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
-                <svg *ngIf="neftLoading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
-                {{ neftLoading ? 'Initiating...' : 'Initiate NEFT' }}
-              </button>
-            </div>
-
-            <!-- Wallet Tab -->
-            <div *ngIf="activeTab === 'wallet'" class="space-y-6">
-
-              <!-- Top-Up -->
-              <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
-                <h4 class="text-sm font-bold text-slate-700 mb-3">💰 Top Up Wallet from Account</h4>
-                <div class="flex gap-3 items-end">
-                  <div class="flex-1">
-                    <label class="block text-xs font-semibold text-slate-500 mb-1.5">Amount (₹)</label>
+                Add Money
+                <span
+                  class="ml-auto bg-blue-50 border border-blue-200 text-blue-600 text-[10px] px-2 py-1 rounded-md font-bold uppercase tracking-widest">Razorpay</span>
+              </h4>
+              <div class="mt-auto">
+                <label class="block text-[11px] font-bold text-slate-500 mb-2 uppercase tracking-widest">Amount
+                  (₹)</label>
+                <div class="flex gap-3">
+                  <div class="relative flex-1">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₹</span>
                     <input type="number" [(ngModel)]="walletTopupAmount"
-                      class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white"
+                      class="w-full pl-8 pr-4 py-3.5 bg-blue-50/50 border border-blue-100 rounded-xl text-sm focus:ring-2 focus:ring-blue-500/40 focus:bg-white font-bold text-slate-800 outline-none transition-all placeholder-slate-400"
                       placeholder="500">
                   </div>
-                  <button (click)="topupWallet()" [disabled]="walletTopupLoading || walletTopupAmount <= 0"
-                    class="px-6 py-2.5 bg-emerald-600 text-white rounded-xl font-semibold text-sm shadow hover:bg-emerald-700 transition-all disabled:opacity-50 flex items-center gap-2">
-                    <svg *ngIf="walletTopupLoading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                  <button (click)="topupWallet()"
+                    [disabled]="walletTopupLoading || walletTopupAmount < 1 || walletTopupAmount > 100000"
+                    class="px-6 py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold shadow-[0_10px_20px_-10px_rgba(37,99,235,0.5)] transition-all disabled:opacity-50 flex items-center justify-center gap-2 shrink-0 hover:-translate-y-0.5 active:translate-y-0">
+                    <svg *ngIf="walletTopupLoading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z">
+                      </path>
+                    </svg>
                     Top Up
                   </button>
                 </div>
-                <div *ngIf="walletTopupMessage" class="mt-2 text-sm"
-                  [ngClass]="walletTopupError ? 'text-red-600' : 'text-green-600'">{{ walletTopupMessage }}</div>
               </div>
-
-              <!-- Wallet Pay -->
-              <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
-                <h4 class="text-sm font-bold text-slate-700 mb-3">👛 Pay from Wallet</h4>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1.5">Receiver VPA</label>
-                    <input type="text" [(ngModel)]="walletPayModel.receiverVpa"
-                      class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 bg-white"
-                      placeholder="user@paysense">
-                  </div>
-                  <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1.5">Amount (₹)</label>
-                    <input type="number" [(ngModel)]="walletPayModel.amount"
-                      class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 bg-white"
-                      placeholder="100">
-                  </div>
-                  <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1.5">Description</label>
-                    <input type="text" [(ngModel)]="walletPayModel.description"
-                      class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 bg-white"
-                      placeholder="Split bill">
-                  </div>
-                </div>
-                <div *ngIf="walletPayMessage" class="mt-2 text-sm"
-                  [ngClass]="walletPayError ? 'text-red-600' : 'text-green-600'">{{ walletPayMessage }}</div>
-                <button (click)="sendWalletPayment()" [disabled]="walletPayLoading || !walletPayModel.receiverVpa || walletPayModel.amount <= 0"
-                  class="mt-3 px-6 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold text-sm hover:bg-indigo-700 transition-all disabled:opacity-50 flex items-center gap-2">
-                  <svg *ngIf="walletPayLoading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
-                  Pay from Wallet
-                </button>
+              <div *ngIf="walletTopupMessage"
+                class="mt-2 text-[13px] font-semibold relative z-10 px-4 py-3 rounded-xl border"
+                [ngClass]="walletTopupError ? 'text-rose-700 bg-rose-50 border-rose-200' : 'text-emerald-700 bg-emerald-50 border-emerald-200'">
+                {{ walletTopupMessage }}
               </div>
             </div>
+          </div>
 
+          <!-- Wallet Pay -->
+          <div
+            class="bg-white/80 backdrop-blur-xl rounded-3xl p-6 border border-blue-100 relative overflow-hidden group hover:border-emerald-300 transition-colors shadow-lg shadow-blue-900/5">
+            <div
+              class="absolute right-0 bottom-0 opacity-[0.02] text-emerald-600 group-hover:opacity-[0.05] transition-opacity">
+              <svg class="w-40 h-40 translate-x-8 translate-y-8" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+              </svg>
+            </div>
+            <div class="relative z-10 w-full flex flex-col h-full gap-4">
+              <h4 class="text-lg font-bold text-slate-800 flex items-center gap-3">
+                <div class="p-2 bg-emerald-50 text-emerald-600 rounded-xl border border-emerald-100">
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                      d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                  </svg>
+                </div>
+                Wallet Transfer
+                <span
+                  class="ml-auto bg-emerald-50 border border-emerald-200 text-emerald-600 text-[10px] px-2 py-1 rounded-md font-bold uppercase tracking-widest">Instant</span>
+              </h4>
+              <div class="mt-auto grid grid-cols-1 sm:grid-cols-[1fr_80px_1fr] gap-3">
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-500 mb-2 uppercase tracking-widest">Receiver
+                    VPA</label>
+                  <input type="text" [(ngModel)]="walletPayModel.receiverVpa"
+                    class="w-full px-4 py-3 bg-blue-50/50 border border-blue-100 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500/40 focus:bg-white font-bold text-slate-800 outline-none transition-all placeholder-slate-400"
+                    placeholder="elonmusk@paysense">
+                </div>
+                <div>
+                  <label
+                    class="block text-[11px] font-bold text-slate-500 mb-2 uppercase tracking-widest">Amount</label>
+                  <input type="number" [(ngModel)]="walletPayModel.amount"
+                    class="w-full px-4 py-3 bg-blue-50/50 border border-blue-100 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500/40 focus:bg-white font-bold text-slate-800 outline-none transition-all placeholder-slate-400"
+                    placeholder="100">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-500 mb-2 uppercase tracking-widest">Note</label>
+                  <div class="flex gap-2">
+                    <input type="text" [(ngModel)]="walletPayModel.description"
+                      class="w-full px-4 py-3 bg-blue-50/50 border border-blue-100 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500/40 focus:bg-white font-bold text-slate-800 outline-none transition-all placeholder-slate-400"
+                      placeholder="Dinner">
+                  </div>
+                </div>
+              </div>
+              <button (click)="sendWalletPayment()"
+                [disabled]="walletPayLoading || !isValidVpa(walletPayModel.receiverVpa) || walletPayModel.amount < 1 || walletPayModel.amount > 10000"
+                class="w-full mt-2 px-6 py-3.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-bold shadow-[0_10px_20px_-10px_rgba(16,185,129,0.4)] transition-all disabled:opacity-50 flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0">
+                <svg *ngIf="walletPayLoading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+                Send Money
+              </button>
+              <div *ngIf="walletPayMessage" class="mt-1 text-[13px] font-semibold px-4 py-3 rounded-xl border"
+                [ngClass]="walletPayError ? 'text-rose-700 bg-rose-50 border-rose-200' : 'text-emerald-700 bg-emerald-50 border-emerald-200'">
+                {{ walletPayMessage }}
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- Recent Transactions mini-preview -->
-        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm">
-          <div class="flex items-center justify-between p-5 border-b border-slate-100">
-            <h3 class="font-bold text-slate-800">Recent Transactions</h3>
-            <button (click)="activeView = 'history'" class="text-indigo-600 text-sm font-medium hover:underline">View All →</button>
+        <div class="bg-white/80 backdrop-blur-md border border-blue-100 rounded-3xl shadow-xl overflow-hidden mt-8">
+          <div class="flex items-center justify-between p-6 border-b border-blue-50 bg-white">
+            <h3 class="font-bold text-slate-800 text-lg tracking-tight">Recent Transactions</h3>
+            <button (click)="switchView('history')"
+              class="text-blue-600 text-sm font-bold hover:text-blue-700 transition-colors flex items-center gap-1 group">View
+              All <span class="transition-transform group-hover:translate-x-1">→</span></button>
           </div>
-          <div *ngIf="isLoadingHistory" class="p-6 space-y-3">
-            <div *ngFor="let i of [1,2,3]" class="h-10 bg-slate-100 rounded-lg animate-pulse"></div>
+          <div *ngIf="isLoadingHistory" class="p-6 space-y-4 bg-white/50">
+            <div *ngFor="let i of [1,2,3]" class="h-16 bg-blue-50 rounded-2xl animate-pulse"></div>
           </div>
           <div *ngIf="!isLoadingHistory && paymentHistory.length === 0"
-            class="p-8 text-center text-slate-400 text-sm">No transactions yet. Send your first payment above!</div>
-          <div *ngIf="!isLoadingHistory && paymentHistory.length > 0" class="divide-y divide-slate-50">
-            <div *ngFor="let tx of paymentHistory.slice(0, 5)" class="flex items-center gap-4 px-5 py-3.5">
-              <div class="w-9 h-9 rounded-full flex items-center justify-center text-lg shrink-0"
-                [ngClass]="tx.status === 'SUCCESS' ? 'bg-indigo-50 border border-indigo-100' : tx.status === 'PENDING' ? 'bg-yellow-50 border border-yellow-200' : 'bg-red-50 border border-red-200'">
+            class="p-12 text-center text-slate-500 text-sm font-medium bg-white/50">No transactions yet. Add some funds
+            to get started!</div>
+          <div *ngIf="!isLoadingHistory && paymentHistory.length > 0" class="divide-y divide-blue-50 p-2 bg-white/50">
+            <div *ngFor="let tx of paymentHistory.slice(0, 5)"
+              class="flex items-center gap-4 px-4 py-3 rounded-2xl hover:bg-blue-50/80 transition-colors group cursor-default">
+              <div
+                class="w-12 h-12 rounded-2xl flex items-center justify-center text-xl shrink-0 shadow-sm border bg-white"
+                [ngClass]="tx.status === 'SUCCESS' ? 'border-emerald-100 text-emerald-500' : tx.status === 'PENDING' ? 'border-amber-100 text-amber-500' : 'border-rose-100 text-rose-500'">
                 <span *ngIf="tx.status === 'FAILED'">❌</span>
                 <span *ngIf="tx.status !== 'FAILED'">{{ getPaymentTypeLabel(tx.paymentType).split(' ')[0] }}</span>
               </div>
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-semibold truncate" [ngClass]="tx.status === 'FAILED' ? 'text-slate-500 line-through' : 'text-slate-700'">{{ tx.description || tx.paymentType + ' Payment' }}</p>
-                <p class="text-xs text-slate-400">{{ tx.initiatedAt | date:'dd MMM, h:mm a' }}</p>
-                <p *ngIf="tx.message && tx.status === 'FAILED'" class="text-xs text-red-500 mt-0.5 truncate flex items-center gap-1"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>{{ tx.message }}</p>
-                <p *ngIf="tx.message && tx.status !== 'FAILED'" class="text-xs text-slate-500 mt-0.5 truncate">{{ tx.message }}</p>
+                <p class="text-[15px] font-bold truncate transition-colors"
+                  [ngClass]="tx.status === 'FAILED' ? 'text-slate-400 line-through' : 'text-slate-800 group-hover:text-blue-900'">
+                  {{ tx.description || tx.paymentType + ' Payment' }}</p>
+                <p class="text-[11px] font-bold text-slate-500 uppercase tracking-widest mt-0.5">{{ tx.initiatedAt |
+                  date:'dd MMM, h:mm a' }}</p>
+                <p *ngIf="tx.message && tx.status === 'FAILED'"
+                  class="text-xs text-rose-500 mt-1 truncate font-medium flex items-center gap-1.5"><svg
+                    class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>{{ tx.message }}</p>
               </div>
               <div class="text-right shrink-0">
-                <p class="text-sm font-bold truncate"
-                  [ngClass]="{
-                    'text-green-600': !isSender(tx) && tx.status === 'SUCCESS',
+                <p class="text-base font-black tracking-tight font-mono border-slate-200" [ngClass]="{
+                    'text-emerald-600': !isSender(tx) && tx.status === 'SUCCESS',
                     'text-slate-800': isSender(tx) && tx.status === 'SUCCESS',
-                    'text-slate-400': tx.status === 'FAILED',
-                    'text-yellow-600': tx.status === 'PENDING'
+                    'text-slate-400 line-through': tx.status === 'FAILED',
+                    'text-amber-500': tx.status === 'PENDING'
                   }">
-                  {{ isSender(tx) ? '-' : '+' }} ₹{{ tx.amount | number:'1.2-2' }}
+                  {{ isSender(tx) && tx.status !== 'FAILED' ? '-' : (!isSender(tx) && tx.status !== 'FAILED' ? '+' : '')
+                  }} ₹{{ tx.amount | number:'1.2-2' }}
                 </p>
-                <span class="text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full mt-1 inline-block" [ngClass]="getStatusClass(tx.status)">{{ tx.status }}</span>
+                <span
+                  class="text-[9px] uppercase tracking-widest font-black px-2 py-0.5 rounded border mt-1 inline-block"
+                  [ngClass]="tx.status === 'SUCCESS' ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : tx.status === 'PENDING' ? 'bg-amber-50 text-amber-600 border-amber-200' : 'bg-rose-50 text-rose-600 border-rose-200'">
+                  {{ tx.status }}
+                </span>
               </div>
             </div>
           </div>
@@ -345,133 +380,193 @@
       <!-- end DASHBOARD VIEW -->
 
       <!-- ─── HISTORY VIEW ─── -->
-      <div *ngIf="activeView === 'history'" class="p-6 max-w-6xl mx-auto space-y-6">
-        
+      <div *ngIf="activeView === 'history'" class="p-8 max-w-7xl mx-auto space-y-8 animate-fade-in-up">
+
         <!-- Header -->
-        <div class="flex items-center justify-between">
-          <h3 class="text-xl font-bold text-slate-800 tracking-tight">Transaction History</h3>
-          <button (click)="fetchPaymentHistory()" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition-colors">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+        <div class="flex items-end justify-between">
+          <div>
+            <h3 class="text-3xl font-black text-blue-950 tracking-tight">Transaction History</h3>
+            <p class="text-slate-500 mt-1">Review your recent wallet activities.</p>
+          </div>
+          <button (click)="fetchPaymentHistory()"
+            class="px-4 py-2 bg-white hover:bg-blue-50 text-slate-700 text-sm font-bold rounded-xl transition-all flex items-center gap-2 border border-slate-200 shadow-sm">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
             Refresh
           </button>
         </div>
 
         <!-- Stat Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div class="bg-white rounded-2xl border border-slate-200/60 p-6 shadow-sm flex flex-col justify-center relative overflow-hidden">
-            <div class="absolute right-0 top-0 opacity-5 -mt-4 -mr-4">
-               <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div
+            class="bg-white/80 backdrop-blur-xl rounded-3xl border border-blue-100 p-8 shadow-xl flex flex-col justify-center relative overflow-hidden group hover:border-blue-300 transition-colors">
+            <div
+              class="absolute right-0 top-0 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity -mt-4 -mr-4 text-blue-600">
+              <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+              </svg>
             </div>
-            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Total Transactions</p>
-            <h4 class="text-4xl font-extrabold text-slate-800 tracking-tight">{{ totalTransactions }}</h4>
+            <p class="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 relative z-10">Total
+              Transactions</p>
+            <h4 class="text-4xl font-extrabold text-blue-950 tracking-tight relative z-10">{{ totalTransactions }}</h4>
           </div>
-          <div class="bg-white rounded-2xl border border-slate-200/60 p-6 shadow-sm flex flex-col justify-center relative overflow-hidden">
-            <div class="absolute right-0 top-0 opacity-[0.03] -mt-4 -mr-4 text-red-600">
-               <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+
+          <div
+            class="bg-white/80 backdrop-blur-xl rounded-3xl border border-rose-100 p-8 shadow-xl flex flex-col justify-center relative overflow-hidden group hover:border-rose-300 transition-colors">
+            <div
+              class="absolute right-0 top-0 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity -mt-4 -mr-4 text-rose-500">
+              <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M7 10l5 5 5-5z" />
+              </svg>
             </div>
-            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Money Spent</p>
-            <h4 class="text-4xl font-extrabold text-red-600 tracking-tight">- ₹ {{ totalSpent | number:'1.2-2' }}</h4>
+            <p class="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 relative z-10">Total Spent</p>
+            <h4
+              class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-rose-700 tracking-tight relative z-10">
+              - ₹ {{ totalSpent | number:'1.2-2' }}</h4>
           </div>
-          <div class="bg-white rounded-2xl border border-slate-200/60 p-6 shadow-sm flex flex-col justify-center relative overflow-hidden">
-            <div class="absolute right-0 top-0 opacity-[0.03] -mt-4 -mr-4 text-emerald-600">
-               <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"/></svg>
+
+          <div
+            class="bg-white/80 backdrop-blur-xl rounded-3xl border border-emerald-100 p-8 shadow-xl flex flex-col justify-center relative overflow-hidden group hover:border-emerald-300 transition-colors">
+            <div
+              class="absolute right-0 top-0 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity -mt-4 -mr-4 text-emerald-500">
+              <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M7 14l5-5 5 5z" />
+              </svg>
             </div>
-            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Money Received</p>
-            <h4 class="text-4xl font-extrabold text-emerald-600 tracking-tight">+ ₹ {{ totalReceived | number:'1.2-2' }}</h4>
+            <p class="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 relative z-10">Total Received
+            </p>
+            <h4
+              class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-emerald-700 tracking-tight relative z-10">
+              + ₹ {{ totalReceived | number:'1.2-2' }}</h4>
           </div>
         </div>
 
         <!-- Filter Tabs -->
-        <div class="flex items-center gap-1 border-b border-slate-200">
-          <button (click)="historyFilter = 'ALL'" class="px-6 py-3 text-sm font-bold transition-all border-b-2"
-            [ngClass]="historyFilter === 'ALL' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300'">
+        <div class="flex items-center gap-2 border-b border-blue-100 pb-4">
+          <button (click)="historyFilter = 'ALL'"
+            class="px-5 py-2.5 text-sm font-bold transition-all rounded-xl shadow-sm"
+            [ngClass]="historyFilter === 'ALL' ? 'bg-blue-600 text-white border border-blue-600' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900'">
             All
           </button>
-          <button (click)="historyFilter = 'SUCCESS'" class="px-6 py-3 text-sm font-bold transition-all border-b-2"
-            [ngClass]="historyFilter === 'SUCCESS' ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300'">
+          <button (click)="historyFilter = 'SUCCESS'"
+            class="px-5 py-2.5 text-sm font-bold transition-all rounded-xl shadow-sm"
+            [ngClass]="historyFilter === 'SUCCESS' ? 'bg-emerald-600 text-white border border-emerald-600' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900'">
             Successful
           </button>
-          <button (click)="historyFilter = 'FAILED'" class="px-6 py-3 text-sm font-bold transition-all border-b-2"
-            [ngClass]="historyFilter === 'FAILED' ? 'border-rose-600 text-rose-600' : 'border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300'">
+          <button (click)="historyFilter = 'FAILED'"
+            class="px-5 py-2.5 text-sm font-bold transition-all rounded-xl shadow-sm"
+            [ngClass]="historyFilter === 'FAILED' ? 'bg-rose-600 text-white border border-rose-600' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900'">
             Failed
           </button>
         </div>
 
         <!-- Skeleton Loader -->
-        <div *ngIf="isLoadingHistory" class="space-y-3 mt-4">
-          <div *ngFor="let i of [1,2,3,4,5]" class="h-20 bg-slate-100 rounded-2xl animate-pulse"></div>
+        <div *ngIf="isLoadingHistory" class="space-y-4 mt-4">
+          <div *ngFor="let i of [1,2,3,4,5]" class="h-24 bg-white/60 border border-blue-50 rounded-3xl animate-pulse">
+          </div>
         </div>
 
         <!-- Empty State -->
-        <div *ngIf="!isLoadingHistory && filteredHistory.length === 0" class="bg-white rounded-2xl border border-slate-200/60 p-16 text-center text-slate-400 mt-4 shadow-sm">
-          <svg class="w-14 h-14 mx-auto mb-4 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
-          <p class="font-medium text-slate-500">No transactions found.</p>
+        <div *ngIf="!isLoadingHistory && filteredHistory.length === 0"
+          class="bg-white/60 rounded-3xl border border-blue-100 p-20 text-center mt-4 shadow-sm backdrop-blur-xl">
+          <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-10 h-10 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+          </div>
+          <p class="font-bold text-slate-600 text-lg tracking-tight">No transactions found.</p>
         </div>
 
         <!-- Redesigned Table -->
-        <div *ngIf="!isLoadingHistory && filteredHistory.length > 0" class="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden mt-4">
+        <div *ngIf="!isLoadingHistory && filteredHistory.length > 0"
+          class="bg-white/80 backdrop-blur-xl rounded-3xl border border-blue-100 shadow-xl overflow-hidden mt-6">
           <div class="overflow-x-auto">
             <table class="w-full text-sm">
-              <thead class="bg-slate-50/50 border-b border-slate-200">
+              <thead class="bg-blue-50/50 border-b border-blue-100">
                 <tr>
-                  <th class="text-left px-6 py-4 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Type</th>
-                  <th class="text-left px-6 py-4 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Details</th>
-                  <th class="text-left px-6 py-4 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Date & Time</th>
-                  <th class="text-right px-6 py-4 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Amount</th>
-                  <th class="text-center px-6 py-4 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
+                  <th class="text-left px-8 py-5 text-[11px] font-black text-slate-500 uppercase tracking-widest w-1/4">
+                    Type</th>
+                  <th class="text-left px-8 py-5 text-[11px] font-black text-slate-500 uppercase tracking-widest w-1/3">
+                    Details</th>
+                  <th class="text-left px-8 py-5 text-[11px] font-black text-slate-500 uppercase tracking-widest">Date &
+                    Time</th>
+                  <th class="text-right px-8 py-5 text-[11px] font-black text-slate-500 uppercase tracking-widest">
+                    Amount & Status</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100">
-                <tr *ngFor="let tx of filteredHistory" class="hover:bg-slate-50/80 transition-colors group">
-                  <td class="px-6 py-5 whitespace-nowrap" [ngClass]="tx.status === 'FAILED' ? 'opacity-70 grayscale-[0.3]' : ''">
-                    <div class="flex items-center gap-3.5">
-                      <div class="w-11 h-11 rounded-full flex items-center justify-center text-xl shadow-sm shrink-0 border"
-                        [ngClass]="tx.status === 'SUCCESS' ? 'bg-emerald-50 border-emerald-100/60 text-emerald-600' : tx.status === 'PENDING' ? 'bg-amber-50 border-amber-100/60 text-amber-600' : 'bg-rose-50 border-rose-100/60 text-rose-600'">
+                <tr *ngFor="let tx of filteredHistory" class="hover:bg-blue-50/30 transition-colors group">
+                  <td class="px-8 py-6 whitespace-nowrap"
+                    [ngClass]="tx.status === 'FAILED' ? 'opacity-70 grayscale-[0.3]' : ''">
+                    <div class="flex items-center gap-4">
+                      <div
+                        class="w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-sm shrink-0 border bg-white"
+                        [ngClass]="tx.status === 'SUCCESS' ? 'border-emerald-100 text-emerald-500' : tx.status === 'PENDING' ? 'border-amber-100 text-amber-500' : 'border-rose-100 text-rose-500'">
                         <span *ngIf="tx.status === 'FAILED'">❌</span>
-                        <span *ngIf="tx.status !== 'FAILED'">{{ getPaymentTypeLabel(tx.paymentType).split(' ')[0] }}</span>
+                        <span *ngIf="tx.status !== 'FAILED'">{{ getPaymentTypeLabel(tx.paymentType).split(' ')[0]
+                          }}</span>
                       </div>
                       <div>
-                        <p class="font-bold text-slate-800" [ngClass]="tx.status === 'FAILED' ? 'text-slate-600' : ''">{{ getPaymentTypeLabel(tx.paymentType).split(' ')[1] }}</p>
-                        <p class="text-[11px] text-slate-400 font-bold uppercase tracking-wider mt-0.5" *ngIf="tx.utrNumber">UTR: {{ tx.utrNumber }}</p>
+                        <p class="font-bold text-blue-950 text-[15px]"
+                          [ngClass]="tx.status === 'FAILED' ? 'text-slate-500' : ''">{{
+                          getPaymentTypeLabel(tx.paymentType).split(' ')[1] }}</p>
+                        <p class="text-[11px] text-slate-500 font-bold uppercase tracking-widest mt-0.5"
+                          *ngIf="tx.utrNumber">UTR: {{ tx.utrNumber }}</p>
                       </div>
                     </div>
                   </td>
-                  <td class="px-6 py-5" [ngClass]="tx.status === 'FAILED' ? 'opacity-70' : ''">
-                    <p class="font-semibold text-sm text-slate-700 truncate max-w-[220px]" [ngClass]="tx.status === 'FAILED' ? 'line-through text-slate-500' : ''">
+                  <td class="px-8 py-6" [ngClass]="tx.status === 'FAILED' ? 'opacity-70' : ''">
+                    <p class="font-bold text-[15px] text-slate-700 truncate max-w-[250px]"
+                      [ngClass]="tx.status === 'FAILED' ? 'line-through text-slate-400' : ''">
                       {{ tx.description || '—' }}
                     </p>
-                    <p *ngIf="tx.message && tx.status === 'FAILED'" class="text-xs text-rose-600 mt-1.5 truncate max-w-[220px] font-semibold flex items-center gap-1.5 bg-rose-50 px-2 py-1 rounded inline-flex">
-                      <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    <div class="mt-1.5 flex flex-wrap gap-2">
+                      <span *ngIf="!isSender(tx) && tx.senderVpa"
+                        class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest bg-slate-100 text-slate-600 border border-slate-200">From:
+                        {{ tx.senderVpa }}</span>
+                      <span *ngIf="isSender(tx) && tx.receiverVpa"
+                        class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest bg-slate-100 text-slate-600 border border-slate-200">To:
+                        {{ tx.receiverVpa }}</span>
+                    </div>
+                    <p *ngIf="tx.message && tx.status === 'FAILED'"
+                      class="text-xs text-rose-600 mt-2 truncate w-max font-bold flex items-center gap-1.5 bg-rose-50 border border-rose-100 px-2.5 py-1 rounded inline-flex">
+                      <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
                       {{ tx.message }}
                     </p>
-                    <p *ngIf="tx.message && tx.status !== 'FAILED'" class="text-xs text-slate-500 mt-1 truncate max-w-[220px]">{{ tx.message }}</p>
+                    <p *ngIf="tx.message && tx.status !== 'FAILED'"
+                      class="text-[13px] text-slate-500 font-medium mt-1 truncate max-w-[250px]">{{ tx.message }}</p>
                   </td>
-                  <td class="px-6 py-5 whitespace-nowrap" [ngClass]="tx.status === 'FAILED' ? 'opacity-70' : ''">
+                  <td class="px-8 py-6 whitespace-nowrap" [ngClass]="tx.status === 'FAILED' ? 'opacity-70' : ''">
                     <p class="font-bold text-slate-700">{{ tx.initiatedAt | date:'dd MMM yyyy' }}</p>
-                    <p class="text-xs text-slate-400 font-medium mt-0.5">{{ tx.initiatedAt | date:'h:mm a' }}</p>
+                    <p class="text-[13px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">{{ tx.initiatedAt |
+                      date:'h:mm a' }}</p>
                   </td>
-                  <td class="px-6 py-5 text-right whitespace-nowrap">
-                    <p class="font-bold text-lg tracking-tight"
-                      [ngClass]="{
+                  <td class="px-8 py-6 text-right whitespace-nowrap">
+                    <p class="font-black text-xl font-mono tracking-tight" [ngClass]="{
                         'text-emerald-600': !isSender(tx) && tx.status === 'SUCCESS',
-                        'text-slate-800': isSender(tx) && tx.status === 'SUCCESS',
-                        'text-rose-500 line-through opacity-80': tx.status === 'FAILED',
-                        'text-amber-600': tx.status === 'PENDING'
+                        'text-blue-950': isSender(tx) && tx.status === 'SUCCESS',
+                        'text-slate-400 line-through opacity-80': tx.status === 'FAILED',
+                        'text-amber-500': tx.status === 'PENDING'
                       }">
                       <span *ngIf="isSender(tx) && tx.status !== 'FAILED'">- ₹ {{ tx.amount | number:'1.2-2' }}</span>
                       <span *ngIf="!isSender(tx) && tx.status !== 'FAILED'">+ ₹ {{ tx.amount | number:'1.2-2' }}</span>
                       <span *ngIf="tx.status === 'FAILED'">₹ {{ tx.amount | number:'1.2-2' }}</span>
                     </p>
-                  </td>
-                  <td class="px-6 py-5 text-center whitespace-nowrap">
-                    <span class="inline-flex items-center px-3 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest"
+                    <span
+                      class="inline-flex items-center px-3 py-1 mt-2 rounded border text-[10px] font-black uppercase tracking-widest"
                       [ngClass]="{
-                        'bg-emerald-50 text-emerald-700 border border-emerald-200/60': tx.status === 'SUCCESS',
-                        'bg-amber-50 text-amber-700 border border-amber-200/60': tx.status === 'PENDING',
-                        'bg-rose-50 text-rose-700 border border-rose-200/60': tx.status === 'FAILED'
+                        'bg-emerald-50 text-emerald-600 border-emerald-200': tx.status === 'SUCCESS',
+                        'bg-amber-50 text-amber-600 border-amber-200': tx.status === 'PENDING',
+                        'bg-rose-50 text-rose-600 border-rose-200': tx.status === 'FAILED'
                       }">
-                      <span class="w-1.5 h-1.5 rounded-full mr-2"
-                        [ngClass]="{
+                      <span class="w-1.5 h-1.5 rounded-full mr-2" [ngClass]="{
                           'bg-emerald-500': tx.status === 'SUCCESS',
                           'bg-amber-500': tx.status === 'PENDING',
                           'bg-rose-500': tx.status === 'FAILED'
@@ -483,50 +578,86 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Load More Button -->
+          <div *ngIf="!isLoadingHistory && filteredHistory.length > 0 && !historyLastPage"
+            class="p-6 border-t border-blue-50/50 text-center bg-white">
+            <button (click)="loadMoreHistory()" [disabled]="isLoadingHistoryMore"
+              class="px-6 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-sm rounded-full transition-colors border border-blue-200 disabled:opacity-50">
+              <span *ngIf="!isLoadingHistoryMore">Load More</span>
+              <span *ngIf="isLoadingHistoryMore">Loading...</span>
+            </button>
+          </div>
         </div>
       </div>
       <!-- end HISTORY VIEW -->
 
       <!-- ─── NOTIFICATIONS VIEW ─── -->
-      <div *ngIf="activeView === 'notifications'" class="p-6 max-w-3xl mx-auto space-y-4">
-        <div class="flex items-center justify-between">
-          <h3 class="text-xl font-bold text-slate-800">Notifications <span *ngIf="unreadCount > 0" class="ml-2 text-sm font-normal text-red-500">({{ unreadCount }} unread)</span></h3>
-          <button (click)="fetchNotifications()" class="text-sm text-indigo-600 hover:underline">Refresh</button>
+      <div *ngIf="activeView === 'notifications'" class="p-8 max-w-4xl mx-auto space-y-6 animate-fade-in-up">
+        <div class="flex items-end justify-between">
+          <div>
+            <h3 class="text-3xl font-black text-blue-950 tracking-tight">Notifications <span *ngIf="unreadCount > 0"
+                class="ml-3 text-base font-bold px-3 py-1 bg-rose-100 text-rose-600 rounded-full border border-rose-200 shadow-sm align-middle">{{
+                unreadCount }} New</span></h3>
+            <p class="text-slate-500 mt-1">Stay updated with your account activity.</p>
+          </div>
+          <button (click)="fetchNotifications()"
+            class="px-4 py-2 bg-white hover:bg-blue-50 text-slate-700 text-sm font-bold rounded-xl transition-all flex items-center gap-2 border border-slate-200 shadow-sm">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Refresh
+          </button>
         </div>
-        <div *ngIf="isLoadingNotifs" class="space-y-3">
-          <div *ngFor="let i of [1,2,3]" class="h-20 bg-slate-100 rounded-xl animate-pulse"></div>
+
+        <div *ngIf="isLoadingNotifs" class="space-y-4">
+          <div *ngFor="let i of [1,2,3]" class="h-24 bg-white/60 border border-blue-50 rounded-3xl animate-pulse"></div>
         </div>
+
         <div *ngIf="!isLoadingNotifs && allNotifications.length === 0"
-          class="bg-white rounded-2xl border border-slate-200 p-12 text-center text-slate-400">
-          <svg class="w-12 h-12 mx-auto mb-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-          <p>No notifications yet.</p>
+          class="bg-white/60 rounded-3xl border border-blue-100 p-20 text-center mt-4 shadow-sm backdrop-blur-xl">
+          <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-10 h-10 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+          </div>
+          <p class="font-bold text-slate-600 text-lg tracking-tight">You're all caught up!</p>
         </div>
-        <div *ngIf="!isLoadingNotifs && allNotifications.length > 0" class="space-y-3">
+
+        <div *ngIf="!isLoadingNotifs && allNotifications.length > 0" class="space-y-4">
           <div *ngFor="let notif of allNotifications"
-            class="bg-white rounded-xl border p-4 flex gap-4 cursor-pointer hover:shadow-sm transition-all"
+            class="rounded-3xl border p-6 flex gap-5 cursor-pointer transition-all backdrop-blur-md group hover:shadow-md bg-white/80"
             [ngClass]="{
-              'border-slate-200': notif.isRead,
-              'border-indigo-200 bg-indigo-50/30': !notif.isRead,
-              'border-l-4 border-l-green-500': notif.type === 'PAYMENT_SUCCESS',
-              'border-l-4 border-l-red-500': notif.type === 'FRAUD_ALERT',
-              'border-l-4 border-l-red-400': notif.type === 'PAYMENT_FAILED'
-            }"
-            (click)="markNotificationRead(notif)">
+              'border-blue-100': notif.isRead,
+              'border-blue-300 bg-blue-50 shadow-[0_4px_15px_rgba(59,130,246,0.1)]': !notif.isRead,
+              'border-l-[6px] border-l-emerald-400 hover:border-l-emerald-500': notif.type === 'PAYMENT_SUCCESS',
+              'border-l-[6px] border-l-rose-500 hover:border-l-rose-600': notif.type === 'FRAUD_ALERT',
+              'border-l-[6px] border-l-rose-400 hover:border-l-rose-500': notif.type === 'PAYMENT_FAILED'
+            }" (click)="markNotificationRead(notif)">
+
             <!-- Icon -->
-            <div class="shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-lg"
-              [ngClass]="notif.type === 'PAYMENT_SUCCESS' ? 'bg-green-100' : notif.type === 'FRAUD_ALERT' ? 'bg-red-100' : 'bg-indigo-100'">
+            <div
+              class="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-sm border bg-white"
+              [ngClass]="notif.type === 'PAYMENT_SUCCESS' ? 'text-emerald-500 border-emerald-100' : notif.type === 'FRAUD_ALERT' ? 'text-rose-600 border-rose-100' : notif.type === 'PAYMENT_FAILED' ? 'text-rose-500 border-rose-100' : 'text-blue-600 border-blue-100'">
               <span *ngIf="notif.type === 'PAYMENT_SUCCESS'">✅</span>
               <span *ngIf="notif.type === 'FRAUD_ALERT'">🚨</span>
               <span *ngIf="notif.type === 'PAYMENT_FAILED'">❌</span>
-              <span *ngIf="notif.type !== 'PAYMENT_SUCCESS' && notif.type !== 'FRAUD_ALERT' && notif.type !== 'PAYMENT_FAILED'">🔔</span>
+              <span
+                *ngIf="notif.type !== 'PAYMENT_SUCCESS' && notif.type !== 'FRAUD_ALERT' && notif.type !== 'PAYMENT_FAILED'">🔔</span>
             </div>
+
             <div class="flex-1 min-w-0">
               <div class="flex items-start justify-between gap-2">
-                <p class="text-sm font-bold text-slate-800">{{ notif.title }}</p>
-                <span *ngIf="!notif.isRead" class="shrink-0 w-2 h-2 mt-1.5 bg-indigo-500 rounded-full"></span>
+                <p class="text-base font-bold text-slate-800 transition-colors"
+                  [ngClass]="!notif.isRead ? 'text-blue-900' : ''">{{ notif.title }}</p>
+                <span *ngIf="!notif.isRead"
+                  class="shrink-0 px-2 py-0.5 mt-0.5 bg-blue-100 text-blue-700 border border-blue-200 rounded text-[9px] font-black uppercase tracking-widest">New</span>
               </div>
-              <p class="text-sm text-slate-600 mt-0.5 leading-snug">{{ notif.body }}</p>
-              <p class="text-xs text-slate-400 mt-1.5">{{ notif.timestamp | date:'dd MMM yyyy, h:mm a' }}</p>
+              <p class="text-sm text-slate-600 mt-1 leading-relaxed">{{ notif.body }}</p>
+              <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-3">{{ notif.timestamp |
+                date:'dd MMM yyyy, h:mm a' }}</p>
             </div>
           </div>
         </div>
@@ -537,32 +668,36 @@
   </main>
 
   <!-- ─── SSE Toast Overlay ─── -->
-  <div class="fixed top-4 right-4 z-50 flex flex-col gap-3 pointer-events-none max-w-sm w-full">
+  <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-4 pointer-events-none max-w-sm w-full">
     <div *ngFor="let notif of toasts"
-      class="pointer-events-auto w-full bg-white border rounded-xl shadow-2xl p-4 flex gap-3 items-start"
+      class="pointer-events-auto w-full bg-white/95 backdrop-blur-xl border border-slate-200 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] p-5 flex gap-4 items-start animate-fade-in-up"
       [ngClass]="{
-        'border-l-4 border-green-500': notif.type === 'PAYMENT_SUCCESS',
-        'border-l-4 border-red-500 bg-red-50': notif.type === 'FRAUD_ALERT',
-        'border-l-4 border-yellow-500': notif.type === 'PAYMENT_FAILED',
-        'border border-slate-200': notif.type !== 'PAYMENT_SUCCESS' && notif.type !== 'FRAUD_ALERT' && notif.type !== 'PAYMENT_FAILED'
+        'border-l-4 border-l-emerald-500': notif.type === 'PAYMENT_SUCCESS',
+        'border-l-4 border-l-rose-500': notif.type === 'FRAUD_ALERT',
+        'border-l-4 border-l-rose-400': notif.type === 'PAYMENT_FAILED'
       }">
-      <div class="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm"
-        [ngClass]="notif.type === 'PAYMENT_SUCCESS' ? 'bg-green-100' : notif.type === 'FRAUD_ALERT' ? 'bg-red-100' : 'bg-yellow-100'">
+      <div
+        class="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-lg bg-blue-50 border border-blue-100"
+        [ngClass]="notif.type === 'PAYMENT_SUCCESS' ? 'text-emerald-600 bg-emerald-50 border-emerald-100' : notif.type === 'FRAUD_ALERT' ? 'text-rose-600 bg-rose-50 border-rose-100' : notif.type === 'PAYMENT_FAILED' ? 'text-rose-600 bg-rose-50 border-rose-100' : 'text-blue-600'">
         <span *ngIf="notif.type === 'PAYMENT_SUCCESS'">✅</span>
         <span *ngIf="notif.type === 'FRAUD_ALERT'">🚨</span>
         <span *ngIf="notif.type === 'PAYMENT_FAILED'">❌</span>
-        <span *ngIf="notif.type !== 'PAYMENT_SUCCESS' && notif.type !== 'FRAUD_ALERT' && notif.type !== 'PAYMENT_FAILED'">🔔</span>
+        <span
+          *ngIf="notif.type !== 'PAYMENT_SUCCESS' && notif.type !== 'FRAUD_ALERT' && notif.type !== 'PAYMENT_FAILED'">🔔</span>
       </div>
       <div class="flex-1 min-w-0">
-        <p class="text-sm font-bold text-slate-800">{{ notif.title }}</p>
-        <p class="text-xs text-slate-600 mt-0.5 leading-snug">{{ notif.body }}</p>
-        <p class="text-xs text-slate-400 mt-1">{{ notif.timestamp | date:'h:mm a' }}</p>
+        <p class="text-[15px] font-bold text-slate-800">{{ notif.title }}</p>
+        <p class="text-sm text-slate-500 mt-1 leading-snug">{{ notif.body }}</p>
+        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2">{{ notif.timestamp | date:'h:mm
+          a' }}</p>
       </div>
-      <button (click)="dismissToast(notif)" class="shrink-0 text-slate-400 hover:text-slate-600 transition-colors">
-        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+      <button (click)="dismissToast(notif)"
+        class="shrink-0 text-slate-400 hover:text-slate-700 transition-colors bg-slate-50 hover:bg-slate-100 p-1.5 rounded-full">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
       </button>
     </div>
   </div>
 
 </div>
-
