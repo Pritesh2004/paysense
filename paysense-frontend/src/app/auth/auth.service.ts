@@ -56,16 +56,19 @@ export class AuthService {
 
   register(data: any): Observable<TokenResponse> {
     return this.http.post<TokenResponse>(`${this.API_URL}/register`, data).pipe(
-      tap(res => this.setSession(res)),
-      catchError(this.handleError)
+      tap(res => this.setSession(res))
     );
   }
 
   login(credentials: any): Observable<TokenResponse> {
     return this.http.post<TokenResponse>(`${this.API_URL}/login`, credentials).pipe(
-      tap(res => this.setSession(res)),
-      switchMap(() => this.fetchCurrentUser()),
-      catchError(this.handleError)
+      tap(res => {
+        this.setSession(res);
+        // Fetch user profile in background - don't block login
+        this.fetchCurrentUser().subscribe({
+          error: () => {} // silently ignore if /me fails
+        });
+      })
     );
   }
 
@@ -133,18 +136,7 @@ export class AuthService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred!';
-    if (error.error instanceof ErrorEvent) {
-      // Client-side errors
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Server-side errors
-      if (error.error && error.error.message) {
-        errorMessage = error.error.message;
-      } else {
-        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-      }
-    }
-    return throwError(() => new Error(errorMessage));
+    // Re-throw the original HttpErrorResponse so components can access error.error.message
+    return throwError(() => error);
   }
 }

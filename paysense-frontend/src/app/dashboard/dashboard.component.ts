@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -8,6 +8,7 @@ import {
 } from '../services/payment.service';
 import { NotificationService, AppNotification } from '../services/notification.service';
 import { AuthService, User } from '../auth/auth.service';
+import { AiService, ChatMessage } from '../services/ai.service';
 import { Subscription } from 'rxjs';
 
 type ActiveTab = 'wallet';
@@ -82,6 +83,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   walletPayMessage = '';
   walletPayError = false;
 
+  // ── AI Chat Widget ────────────────────────────────────
+  isChatOpen = false;
+  chatMessages: ChatMessage[] = [];
+  chatInput = '';
+  isChatLoading = false;
+  chatConversationId: string | null = null;
+  @ViewChild('chatMessagesContainer') chatMessagesContainer!: ElementRef;
+
   private subscriptions = new Subscription();
 
   constructor(
@@ -89,6 +98,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private paymentService: PaymentService,
     private notificationService: NotificationService,
     private authService: AuthService,
+    private aiService: AiService,
     private ngZone: NgZone
   ) {}
 
@@ -409,6 +419,79 @@ export class DashboardComponent implements OnInit, OnDestroy {
   isValidVpa(vpa: string): boolean {
     if (!vpa) return false;
     return /^[\w.-]+@[\w.-]+$/.test(vpa);
+  }
+
+  // ── AI Chat Methods ───────────────────────────────────
+
+  toggleChat() {
+    this.isChatOpen = !this.isChatOpen;
+    if (this.isChatOpen && this.chatMessages.length === 0) {
+      // Add welcome message
+      this.chatMessages.push({
+        role: 'assistant',
+        content: 'Hi! 👋 I\'m your PaySense AI advisor. Ask me anything about your spending, budgets, or financial health!\n\nTry:\n• "How much did I spend this month?"\n• "Set a ₹5000 budget for food"\n• "Show unusual spending"\n• "Give me savings tips"',
+        timestamp: new Date()
+      });
+    }
+  }
+
+  sendChatMessage() {
+    if (!this.chatInput.trim() || this.isChatLoading) return;
+
+    const userMessage = this.chatInput.trim();
+    this.chatInput = '';
+
+    // Add user message
+    this.chatMessages.push({
+      role: 'user',
+      content: userMessage,
+      timestamp: new Date()
+    });
+    this.scrollChatToBottom();
+
+    this.isChatLoading = true;
+
+    this.aiService.chat({
+      message: userMessage,
+      conversationId: this.chatConversationId || undefined
+    }).subscribe({
+      next: (res) => {
+        this.chatMessages.push({
+          role: 'assistant',
+          content: res.response,
+          toolsUsed: res.toolsUsed,
+          timestamp: new Date()
+        });
+        this.chatConversationId = res.conversationId;
+        this.isChatLoading = false;
+        this.scrollChatToBottom();
+      },
+      error: (err) => {
+        this.chatMessages.push({
+          role: 'assistant',
+          content: 'Sorry, I\'m having trouble connecting right now. Please try again in a moment.',
+          timestamp: new Date()
+        });
+        this.isChatLoading = false;
+        this.scrollChatToBottom();
+      }
+    });
+  }
+
+  scrollChatToBottom() {
+    setTimeout(() => {
+      if (this.chatMessagesContainer) {
+        const el = this.chatMessagesContainer.nativeElement;
+        el.scrollTop = el.scrollHeight;
+      }
+    }, 100);
+  }
+
+  handleChatKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.sendChatMessage();
+    }
   }
 }
 

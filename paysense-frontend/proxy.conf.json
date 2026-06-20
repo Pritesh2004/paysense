@@ -11,6 +11,12 @@
     "changeOrigin": true,
     "logLevel": "info"
   },
+  "/api/transactions": {
+    "target": "http://localhost:8083",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
+  },
   "/api/fraud": {
     "target": "http://localhost:8084",
     "secure": false,
@@ -19,6 +25,18 @@
   },
   "/api/notifications": {
     "target": "http://localhost:8085",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
+  },
+  "/api/ai": {
+    "target": "http://localhost:8086",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
+  },
+  "/mcp": {
+    "target": "http://localhost:8086",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "info"
